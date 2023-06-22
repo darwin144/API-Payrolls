@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace API_Payroll.Controllers
+namespace API_eSIP.Controllers
 {
     [ApiController]
     [Route("[controller]")]
