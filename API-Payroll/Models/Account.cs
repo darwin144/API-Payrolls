@@ -13,5 +13,10 @@ namespace API_eSIP.Models
         [Column("employee_id")]
         public Guid Employee_id { get; set; }
 
+        // kardinalitas
+        public ICollection<AccountRole>? AccountRoles { get; set; }
+        public Employee? Employee { get; set; } 
+
+
     }
 }

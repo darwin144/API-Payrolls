@@ -14,5 +14,7 @@ namespace API_eSIP.Models
         public Guid Role_id { get; set; }
 
         //kardinalitas
+        public Role? Role { get; set; }
+        public Account? Account { get; set; }
     }
 }

@@ -13,15 +13,19 @@ namespace API_eSIP.Models
         public DateTime SubmitDate { get; set; }
         [Column("deskripsi",TypeName ="varchar(50)")]
         public string Deskripsi { get; set; }
-        [Column("Paid")]
-        public int Paid { get; set; }
         [Column("tipe")]
         public Types Tipe { get; set; }
+        [Column("startOvertime")]
+        public DateTime Start_Overtime { get; set; }
+        [Column("endOvertime")]
+        public DateTime End_Overtime { get; set; }
+        [Column("Paid")]
+        public int Paid { get; set; }
         [Column("status")]
         public Status Status { get; set; }
-        [Column("type")]
-        public Types Type { get; set; }       
+               
 
         //kardinalitas
+        public Employee Employee { get; set; }
     }
 }

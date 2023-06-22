@@ -18,6 +18,10 @@ namespace API_eSIP.Models
         public int TotalSalary { get; set; }
         [Column("employee_id")]
         public Guid Employee_id { get; set; }
+        
+
+        // kardinalitas
+        public Employee? Employee { get; set; }
 
     }
 }

@@ -7,7 +7,6 @@ namespace API_eSIP.Models
     [Table("tb_m_employees")]
     public class Employee
     {
-
         [Key]
         public Guid Id { get; set; }
         [Column("nik", TypeName = "nchar(6)")]
@@ -36,6 +35,12 @@ namespace API_eSIP.Models
         public Guid Overtime_id { get; set; }
 
         //kardinalitas
+        public Account? Account { get; set; }
+        public EmployeeLevel? EmployeeLevel { get; set; }
+        
+        public Department? Department { get; set; }
+        public ICollection<Overtime>? Overtimes { get; set; }
+        public ICollection<Payroll>? Payrolls { get; set; }
 
     }
 }

@@ -10,5 +10,7 @@ namespace API_eSIP.Models
         public Guid Id { get; set; }
         [Column("name",TypeName ="varchar(50)")]
         public string Name{ get; set; }
+
+        public ICollection<Employee> Employee { get; set; }
     }
 }

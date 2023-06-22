@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_Payroll.Migrations
 {
     [DbContext(typeof(PayrollOvertimeContext))]
-    [Migration("20230622074933_initializeMigration")]
-    partial class initializeMigration
+    [Migration("20230622130635_initialize")]
+    partial class initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -41,6 +41,9 @@ namespace API_Payroll.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Employee_id")
+                        .IsUnique();
+
                     b.ToTable("tb_m_accounts");
                 });
 
@@ -59,6 +62,10 @@ namespace API_Payroll.Migrations
                         .HasColumnName("role_id");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Account_id");
+
+                    b.HasIndex("Role_id");
 
                     b.ToTable("tb_tr_accountRoles");
                 });
@@ -140,6 +147,13 @@ namespace API_Payroll.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Department_id");
+
+                    b.HasIndex("EmployeeLevel_id");
+
+                    b.HasIndex("NIK", "Email", "PhoneNumber")
+                        .IsUnique();
+
                     b.ToTable("tb_m_employees");
                 });
 
@@ -171,7 +185,6 @@ namespace API_Payroll.Migrations
             modelBuilder.Entity("API_eSIP.Models.Overtime", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Deskripsi")
@@ -179,9 +192,17 @@ namespace API_Payroll.Migrations
                         .HasColumnType("varchar(50)")
                         .HasColumnName("deskripsi");
 
+                    b.Property<DateTime>("End_Overtime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("endOvertime");
+
                     b.Property<int>("Paid")
                         .HasColumnType("int")
                         .HasColumnName("Paid");
+
+                    b.Property<DateTime>("Start_Overtime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("startOvertime");
 
                     b.Property<int>("Status")
                         .HasColumnType("int")
@@ -194,10 +215,6 @@ namespace API_Payroll.Migrations
                     b.Property<int>("Tipe")
                         .HasColumnType("int")
                         .HasColumnName("tipe");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int")
-                        .HasColumnName("type");
 
                     b.HasKey("Id");
 
@@ -232,6 +249,8 @@ namespace API_Payroll.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Employee_id");
+
                     b.ToTable("tb_tr_payrolls");
                 });
 
@@ -249,6 +268,123 @@ namespace API_Payroll.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("tb_m_roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("f147a695-1a4f-4960-bffc-08db60bf618f"),
+                            Name = "Employee"
+                        },
+                        new
+                        {
+                            Id = new Guid("c22a20c5-0149-41fd-bffd-08db60bf618f"),
+                            Name = "Manager"
+                        },
+                        new
+                        {
+                            Id = new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
+                            Name = "Admin"
+                        });
+                });
+
+            modelBuilder.Entity("API_eSIP.Models.Account", b =>
+                {
+                    b.HasOne("API_eSIP.Models.Employee", "Employee")
+                        .WithOne("Account")
+                        .HasForeignKey("API_eSIP.Models.Account", "Employee_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("API_eSIP.Models.AccountRole", b =>
+                {
+                    b.HasOne("API_eSIP.Models.Account", "Account")
+                        .WithMany("AccountRoles")
+                        .HasForeignKey("Account_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API_eSIP.Models.Role", "Role")
+                        .WithMany("AccountRoles")
+                        .HasForeignKey("Role_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("API_eSIP.Models.Employee", b =>
+                {
+                    b.HasOne("API_eSIP.Models.Department", "Department")
+                        .WithMany("Employee")
+                        .HasForeignKey("Department_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API_eSIP.Models.EmployeeLevel", "EmployeeLevel")
+                        .WithMany("Employees")
+                        .HasForeignKey("EmployeeLevel_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Department");
+
+                    b.Navigation("EmployeeLevel");
+                });
+
+            modelBuilder.Entity("API_eSIP.Models.Overtime", b =>
+                {
+                    b.HasOne("API_eSIP.Models.Employee", "Employee")
+                        .WithMany("Overtimes")
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("API_eSIP.Models.Payroll", b =>
+                {
+                    b.HasOne("API_eSIP.Models.Employee", "Employee")
+                        .WithMany("Payrolls")
+                        .HasForeignKey("Employee_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("API_eSIP.Models.Account", b =>
+                {
+                    b.Navigation("AccountRoles");
+                });
+
+            modelBuilder.Entity("API_eSIP.Models.Department", b =>
+                {
+                    b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("API_eSIP.Models.Employee", b =>
+                {
+                    b.Navigation("Account");
+
+                    b.Navigation("Overtimes");
+
+                    b.Navigation("Payrolls");
+                });
+
+            modelBuilder.Entity("API_eSIP.Models.EmployeeLevel", b =>
+                {
+                    b.Navigation("Employees");
+                });
+
+            modelBuilder.Entity("API_eSIP.Models.Role", b =>
+                {
+                    b.Navigation("AccountRoles");
                 });
 #pragma warning restore 612, 618
         }

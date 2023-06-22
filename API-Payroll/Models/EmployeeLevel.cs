@@ -14,5 +14,7 @@ namespace API_eSIP.Models
         public string Level { get; set; }
         [Column("salary")]
         public int Salary { get; set; }
+
+        public ICollection<Employee> Employees { get; set; }
     }
 }
