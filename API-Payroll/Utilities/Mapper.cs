@@ -1,7 +1,7 @@
-﻿using API_eSIP.Contracts;
+﻿using API_Payroll.Contracts;
 using System.Reflection;
 
-namespace API.Utility;
+namespace API_Payroll.Utilities;
 
 public class Mapper<TModel, TViewModel> : IMapper<TModel, TViewModel>
     where TModel : class

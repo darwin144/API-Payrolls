@@ -1,8 +1,7 @@
-﻿
-using API_eSIP.Models;
+﻿using API_Payroll.Models;
 using System.Data;
 
-namespace API_eSIP.Contracts
+namespace API_Payroll.Contracts
 {
     public interface IEmployeeOvertimeRepository : IGenericRepository<Overtime>
     {

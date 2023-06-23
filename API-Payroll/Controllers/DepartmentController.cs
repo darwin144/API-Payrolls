@@ -1,11 +1,10 @@
-﻿using API_eSIP.Contracts;
-using API_eSIP.Models;
-using API_eSIP.Repositories;
-using API_eSIP.ViewModels.Departments;
-using API_eSIP.ViewModels.Employees;
+﻿using API_Payroll.Contracts;
+using API_Payroll.Controllers;
+using API_Payroll.Models;
+using API_Payroll.ViewModels.Departments;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API_eSIP.Controllers
+namespace API_Payroll.Controllers
 {
     [ApiController]
     [Route("API-Payroll/[controller]")]

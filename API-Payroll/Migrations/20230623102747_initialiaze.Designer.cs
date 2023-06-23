@@ -4,6 +4,7 @@ using API_Payroll.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_Payroll.Migrations
 {
     [DbContext(typeof(PayrollOvertimeContext))]
-    partial class PayrollOvertimeContextModelSnapshot : ModelSnapshot
+    [Migration("20230623102747_initialiaze")]
+    partial class initialiaze
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -157,7 +159,7 @@ namespace API_Payroll.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("Allowence")
+                    b.Property<int>("Allowence")
                         .HasColumnType("int")
                         .HasColumnName("allowence");
 
@@ -173,7 +175,7 @@ namespace API_Payroll.Migrations
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("Varchar(50)")
-                        .HasColumnName("title");
+                        .HasColumnName("titleName");
 
                     b.HasKey("Id");
 

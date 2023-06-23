@@ -1,5 +1,6 @@
-﻿using API_eSIP.Models;
-namespace API_eSIP.Contracts
+﻿using API_Payroll.Models;
+
+namespace API_Payroll.Contracts
 {
     public interface IDepartmentRepository : IGenericRepository<Department>
     {

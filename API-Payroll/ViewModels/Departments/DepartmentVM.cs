@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace API_eSIP.ViewModels.Departments
+namespace API_Payroll.ViewModels.Departments
 {
     public class DepartmentVM
     {

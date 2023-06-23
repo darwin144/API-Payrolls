@@ -1,15 +1,13 @@
-﻿using API.Utility;
-using API_eSIP.Contracts;
-using API_eSIP.Models;
-using API_eSIP.Repositories;
-using API_eSIP.ViewModels.Overtimes;
+﻿using API_Payroll.Contracts;
+using API_Payroll.Models;
+using API_Payroll.ViewModels.Overtimes;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API_eSIP.Controllers
+namespace API_Payroll.Controllers
 {
     [ApiController]
     [Route("API-Payroll/[controller]")]
-    public class OvertimeController : BaseController<Overtime,OvertimeVM>
+    public class OvertimeController : BaseController<Overtime, OvertimeVM>
     {
         private readonly IEmployeeOvertimeRepository _overtimeRepository;
         private readonly IMapper<Overtime, OvertimeVM> _mapper;

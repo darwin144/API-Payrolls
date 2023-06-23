@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace API_eSIP.Models
+namespace API_Payroll.Models
 {
     [Table("tb_tr_accountRoles")]
     public class AccountRole

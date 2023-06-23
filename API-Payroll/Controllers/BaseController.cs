@@ -1,10 +1,11 @@
-﻿using API_eSIP.Contracts;
-using API_eSIP.ViewModels.Others;
-using Azure;
+﻿using API_Payroll.Contracts;
+using API_Payroll.ViewModels.Others;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
-namespace API_eSIP.Controllers
+
+
+namespace API_Payroll.Controllers
 {
     public class BaseController<TModel, TViewModel> : ControllerBase
     {

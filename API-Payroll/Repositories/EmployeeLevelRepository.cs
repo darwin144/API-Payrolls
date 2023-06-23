@@ -1,8 +1,9 @@
-﻿using API_eSIP.Context;
-using API_eSIP.Contracts;
-using API_eSIP.Models;
+﻿using API_Payroll.Context;
+using API_Payroll.Contracts;
+using API_Payroll.Models;
+using API_Payroll.Repositories;
 
-namespace API_eSIP.Repositories
+namespace API_Payroll.Repositories
 {
     public class EmployeeLevelRepository : GenericRepository<EmployeeLevel>, IEmployeeLevelRepository
     {

@@ -1,4 +1,4 @@
-﻿namespace API_eSIP.Contracts
+﻿namespace API_Payroll.Contracts
 {
     public interface IGenericRepository<T>
     {

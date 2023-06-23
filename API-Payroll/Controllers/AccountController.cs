@@ -1,19 +1,18 @@
-﻿using API_eSIP.Contracts;
-using API_eSIP.Models;
-using API_eSIP.ViewModels.Accounts;
-using API_eSIP.ViewModels.Employees;
+﻿using API_Payroll.Contracts;
+using API_Payroll.Models;
+using API_Payroll.ViewModels.Accounts;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API_eSIP.Controllers
+namespace API_Payroll.Controllers
 {
     [ApiController]
     [Route("API-Payroll/[controller]")]
-    public class AccountController : BaseController<Account,AccountVM>
+    public class AccountController : BaseController<Account, AccountVM>
     {
         private readonly IAccountRepository _accountRepository;
         private readonly IMapper<Account, AccountVM> _mapper;
 
-        public AccountController(IAccountRepository accountRepository, IMapper<Account, AccountVM> mapper) : base (accountRepository, mapper)
+        public AccountController(IAccountRepository accountRepository, IMapper<Account, AccountVM> mapper) : base(accountRepository, mapper)
         {
             _accountRepository = accountRepository;
             _mapper = mapper;

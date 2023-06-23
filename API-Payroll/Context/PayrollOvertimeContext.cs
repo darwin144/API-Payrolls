@@ -1,9 +1,9 @@
-﻿using API_eSIP.Models;
+﻿using API_Payroll.Models;
 using API_Payroll.Utilities.Enum;
 using Microsoft.EntityFrameworkCore;
 
 
-namespace API_eSIP.Context
+namespace API_Payroll.Context
 {
     public class PayrollOvertimeContext : DbContext
     {
@@ -19,7 +19,8 @@ namespace API_eSIP.Context
         public DbSet<Payroll> Payrolls { get; set; }
         public DbSet<Role> Roles { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder builder) {
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
             base.OnModelCreating(builder);
 
             //set data role
@@ -49,23 +50,23 @@ namespace API_eSIP.Context
 
             builder.Entity<Payroll>().HasOne(u => u.Employee).WithMany(e => e.Payrolls)
                 .HasForeignKey(e => e.Employee_id);
-            
+
             builder.Entity<Department>().HasMany(u => u.Employee).WithOne(e => e.Department)
                 .HasForeignKey(e => e.Department_id);
-            
+
             builder.Entity<EmployeeLevel>().HasMany(u => u.Employees).WithOne(e => e.EmployeeLevel)
                 .HasForeignKey(e => e.EmployeeLevel_id);
-            
+
             builder.Entity<Role>().HasMany(u => u.AccountRoles).WithOne(e => e.Role)
                 .HasForeignKey(e => e.Role_id);
-            
+
             builder.Entity<AccountRole>().HasOne(u => u.Account).WithMany(e => e.AccountRoles)
                 .HasForeignKey(e => e.Account_id);
-            
+
             builder.Entity<Account>().HasOne(u => u.Employee).WithOne(e => e.Account)
                 .HasForeignKey<Account>(e => e.Employee_id);
 
-           
+
         }
     }
 }

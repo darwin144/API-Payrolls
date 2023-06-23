@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace API_eSIP.ViewModels.Accounts
+namespace API_Payroll.ViewModels.Accounts
 {
     public class AccountVM
     {

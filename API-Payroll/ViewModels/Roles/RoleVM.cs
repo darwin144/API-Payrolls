@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace API_eSIP.ViewModels.Roles
+﻿namespace API_Payroll.ViewModels.Roles
 {
     public class RoleVM
     {

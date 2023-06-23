@@ -1,4 +1,4 @@
-﻿namespace API_eSIP.Utilities.Enum
+﻿namespace API_Payroll.Utilities.Enum
 {
     public enum Types
     {

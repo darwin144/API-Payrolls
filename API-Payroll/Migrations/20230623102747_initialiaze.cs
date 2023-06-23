@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace API_Payroll.Migrations
 {
-    public partial class initialize : Migration
+    public partial class initialiaze : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -28,7 +28,8 @@ namespace API_Payroll.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     titleName = table.Column<string>(type: "Varchar(50)", nullable: false),
                     level = table.Column<string>(type: "Varchar(20)", nullable: false),
-                    salary = table.Column<int>(type: "int", nullable: false)
+                    salary = table.Column<int>(type: "int", nullable: false),
+                    allowence = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -60,10 +61,9 @@ namespace API_Payroll.Migrations
                     hiring_date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     email = table.Column<string>(type: "nvarchar(100)", nullable: false),
                     phone_number = table.Column<string>(type: "nvarchar(20)", nullable: false),
-                    reportTo = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    reportTo = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     employeeLevel_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    department_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    overtime_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    department_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -112,7 +112,8 @@ namespace API_Payroll.Migrations
                     startOvertime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     endOvertime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Paid = table.Column<int>(type: "int", nullable: false),
-                    status = table.Column<int>(type: "int", nullable: false)
+                    status = table.Column<int>(type: "int", nullable: false),
+                    employee_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -130,7 +131,6 @@ namespace API_Payroll.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    tax = table.Column<float>(type: "real", nullable: false),
                     payDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     payrollCut = table.Column<int>(type: "int", nullable: false),
                     totalSalary = table.Column<int>(type: "int", nullable: false),

@@ -1,4 +1,4 @@
-﻿namespace API_eSIP.ViewModels.Others
+﻿namespace API_Payroll.ViewModels.Others
 {
     public class ResponseVM <TEntity>
     {

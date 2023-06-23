@@ -1,10 +1,10 @@
-using API.Utility;
-using API_eSIP.Context;
-using API_eSIP.Contracts;
-using API_eSIP.Repositories;
+using API_Payroll.Context;
+using API_Payroll.Contracts;
+using API_Payroll.Repositories;
+using API_Payroll.Utilities;
 using Microsoft.EntityFrameworkCore;
 
-namespace API_eSIP
+namespace API_Payroll
 {
     public class Program
     {
@@ -25,7 +25,7 @@ namespace API_eSIP
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             builder.Services.AddScoped<IEmployeeLevelRepository, EmployeeLevelRepository>();
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
-            builder.Services.AddScoped<IEmployeeOvertimeRepository, OvertimeRepository>();
+            builder.Services.AddScoped<IEmployeeOvertimeRepository, EmployeeOvertimeRepository>();
             builder.Services.AddScoped<IPayrollRepository, PayrollRepository>();
             builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 

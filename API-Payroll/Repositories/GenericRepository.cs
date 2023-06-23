@@ -1,9 +1,9 @@
-﻿using API_eSIP.Context;
-using API_eSIP.Contracts;
+﻿using API_Payroll.Context;
+using API_Payroll.Contracts;
 using Microsoft.EntityFrameworkCore;
 using System.Xml.Linq;
 
-namespace API_eSIP.Repositories
+namespace API_Payroll.Repositories
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity>
         where TEntity : class
