@@ -4,6 +4,7 @@ using API_Payroll.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_Payroll.Migrations
 {
     [DbContext(typeof(PayrollOvertimeContext))]
-    partial class PayrollOvertimeContextModelSnapshot : ModelSnapshot
+    [Migration("20230623172707_updatepsositionattributtable")]
+    partial class updatepsositionattributtable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -195,7 +197,7 @@ namespace API_Payroll.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("employee_id");
 
-                    b.Property<DateTime>("EndOvertime")
+                    b.Property<DateTime>("End_Overtime")
                         .HasColumnType("datetime2")
                         .HasColumnName("endOvertime");
 
@@ -203,7 +205,7 @@ namespace API_Payroll.Migrations
                         .HasColumnType("int")
                         .HasColumnName("Paid");
 
-                    b.Property<DateTime>("StartOvertime")
+                    b.Property<DateTime>("Start_Overtime")
                         .HasColumnType("datetime2")
                         .HasColumnName("startOvertime");
 
@@ -214,6 +216,10 @@ namespace API_Payroll.Migrations
                     b.Property<DateTime>("SubmitDate")
                         .HasColumnType("datetime2")
                         .HasColumnName("submitDate");
+
+                    b.Property<int>("Tipe")
+                        .HasColumnType("int")
+                        .HasColumnName("tipe");
 
                     b.HasKey("Id");
 

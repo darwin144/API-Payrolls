@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace API_Payroll.Models
 {
@@ -18,6 +19,7 @@ namespace API_Payroll.Models
         public Guid Employee_id { get; set; }
 
         // kardinalitas
+        [JsonIgnore]
         public Employee? Employee { get; set; }
     }
 }

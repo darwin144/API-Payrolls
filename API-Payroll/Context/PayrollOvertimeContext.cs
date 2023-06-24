@@ -46,7 +46,7 @@ namespace API_Payroll.Context
 
             // add foreign key
             builder.Entity<Overtime>().HasOne(u => u.Employee).WithMany(e => e.Overtimes)
-                .HasForeignKey(e => e.Id);
+                .HasForeignKey(e => e.Employee_id);
 
             builder.Entity<Payroll>().HasOne(u => u.Employee).WithMany(e => e.Payrolls)
                 .HasForeignKey(e => e.Employee_id);

@@ -92,7 +92,7 @@ namespace API_Payroll.Controllers
             });
         }
 
-        [HttpPut]
+        [HttpPut("{guid}")]
         public IActionResult Update(TViewModel viewModel)
         {
             var model = _mapper.Map(viewModel);

@@ -1,6 +1,7 @@
 ﻿using API_Payroll.Utilities.Enum;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace API_Payroll.Models
 {
@@ -13,6 +14,7 @@ namespace API_Payroll.Models
         public string Name { get; set; }
 
         //kardinalitas
+        [JsonIgnore]
         public ICollection<AccountRole> AccountRoles { get; set; }
     }
 }

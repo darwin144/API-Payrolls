@@ -2,6 +2,7 @@
 using API_Payroll.Utilities.Enum;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace API_Payroll.Models
 {
@@ -11,15 +12,13 @@ namespace API_Payroll.Models
         [Key]
         public Guid Id { get; set; }
         [Column("startOvertime")]
-        public DateTime Start_Overtime { get; set; }
+        public DateTime StartOvertime { get; set; }
         [Column("endOvertime")]
-        public DateTime End_Overtime { get; set; }
+        public DateTime EndOvertime { get; set; }
         [Column("submitDate")]
         public DateTime SubmitDate { get; set; }
         [Column("deskripsi", TypeName = "varchar(50)")]
         public string Deskripsi { get; set; }
-        [Column("tipe")]
-        public Types Tipe { get; set; }
         [Column("Paid")]
         public int Paid { get; set; }
         [Column("status")]
@@ -28,6 +27,7 @@ namespace API_Payroll.Models
         public Guid Employee_id { get; set; }
 
         //kardinalitas
+        [JsonIgnore]
         public Employee Employee { get; set; }
     }
 }
