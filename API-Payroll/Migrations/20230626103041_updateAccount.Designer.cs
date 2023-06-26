@@ -4,6 +4,7 @@ using API_Payroll.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_Payroll.Migrations
 {
     [DbContext(typeof(PayrollOvertimeContext))]
-    partial class PayrollOvertimeContextModelSnapshot : ModelSnapshot
+    [Migration("20230626103041_updateAccount")]
+    partial class updateAccount
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,15 +34,6 @@ namespace API_Payroll.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("employee_id");
 
-                    b.Property<DateTime?>("ExpiredTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsUsed")
-                        .HasColumnType("bit");
-
                     b.Property<int>("OTP")
                         .HasColumnType("int");
 
@@ -48,6 +41,12 @@ namespace API_Payroll.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("password");
+
+                    b.Property<bool>("isDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("isUsed")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 

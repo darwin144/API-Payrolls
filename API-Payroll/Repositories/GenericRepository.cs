@@ -79,29 +79,4 @@ namespace API_Payroll.Repositories
             }
         }
     }
-    /*        public TEntity? Create(TEntity item)
-            {
-                throw new NotImplementedException();
-            }
-
-            public bool Delete(Guid guid)
-            {
-                throw new NotImplementedException();
-            }
-
-            public IEnumerable<TEntity> GetAll()
-            {
-                throw new NotImplementedException();
-            }
-
-            public TEntity? GetByGuid(Guid guid)
-            {
-                throw new NotImplementedException();
-            }
-
-            public bool Update(TEntity item)
-            {
-                throw new NotImplementedException();
-            }
-        }*/
 }

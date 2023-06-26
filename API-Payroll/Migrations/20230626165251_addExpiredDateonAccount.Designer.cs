@@ -4,6 +4,7 @@ using API_Payroll.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_Payroll.Migrations
 {
     [DbContext(typeof(PayrollOvertimeContext))]
-    partial class PayrollOvertimeContextModelSnapshot : ModelSnapshot
+    [Migration("20230626165251_addExpiredDateonAccount")]
+    partial class addExpiredDateonAccount
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

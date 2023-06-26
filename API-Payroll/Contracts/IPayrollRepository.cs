@@ -6,5 +6,7 @@ namespace API_Payroll.Contracts
     public interface IPayrollRepository : IGenericRepository<Payroll>
     {
         Payroll CreatePayroll(PayrollCreateVM payrollCreate);
+        IEnumerable<PayrollPrintVM> GetAllDetailPayrolls();
+        IEnumerable<PayrollPrintVM> GetAllDetailPayrollsByEmployeeID(Guid id);
     }
 }

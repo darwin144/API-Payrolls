@@ -1,5 +1,6 @@
 ﻿using API_Payroll.Contracts;
 using API_Payroll.ViewModels.Others;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -7,6 +8,9 @@ using System.Net;
 
 namespace API_Payroll.Controllers
 {
+    [ApiController]
+    [Route("API-Payroll/[controller]")]
+    [Authorize]
     public class BaseController<TModel, TViewModel> : ControllerBase
     {
         private readonly IGenericRepository<TModel> _repository;

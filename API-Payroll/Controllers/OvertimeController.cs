@@ -2,6 +2,7 @@
 using API_Payroll.Models;
 using API_Payroll.ViewModels.Others;
 using API_Payroll.ViewModels.Overtimes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -9,6 +10,7 @@ namespace API_Payroll.Controllers
 {
     [ApiController]
     [Route("API-Payroll/[controller]")]
+    
     public class OvertimeController : BaseController<Overtime, OvertimeVM>
     {
         private readonly IEmployeeOvertimeRepository _overtimeRepository;
@@ -19,8 +21,10 @@ namespace API_Payroll.Controllers
             _overtimeRepository = overtimeRepository;
             _mapper = mapper;
         }
+
+        [Authorize(Roles = "Employee")]
         [HttpPost("OvertimeRequest")]
-        public IActionResult Create(OvertimeVM modelVM)
+        public IActionResult Created(OvertimeVM modelVM)
         {
             var model = _mapper.Map(modelVM);
             var result = _overtimeRepository.CreateRequest(model);
@@ -42,8 +46,8 @@ namespace API_Payroll.Controllers
                 Data = result
             });
         }
-
-
+        
+        [Authorize(Roles = "Manager")]
         [HttpPut("OvertimeApproval/{guid}")]
         public IActionResult Update(Guid guid, OvertimeVM modelVM) {
             try
@@ -71,9 +75,10 @@ namespace API_Payroll.Controllers
                 return BadRequest();
             }
         }
-
+        
+        [Authorize(Roles = "Manager")]
         [HttpGet("ByManager/{guid}")]
-        public async Task<IActionResult> ListOvertimeByManagerId(Guid guid) {
+        public IActionResult ListOvertimeByManagerId(Guid guid) {
 
             var overtimes = _overtimeRepository.ListOvertimeByIdManager(guid);
             if (!overtimes.Any()) {
@@ -92,11 +97,13 @@ namespace API_Payroll.Controllers
                 Data = overtimes
             });
         }
+        
+        [Authorize(Roles = "Employee")]
         [HttpGet("ByEmployee/{guid}")]
-        public async Task<IActionResult> ListOvertimeByEmployeeId(Guid guid) {
+        public IActionResult ListOvertimeByEmployeeId(Guid guid) {
             try
             {
-                var overtimes = _overtimeRepository.ListOvertimeByIdEmployee(guid);
+                var overtimes =  _overtimeRepository.ListOvertimeByIdEmployee(guid);
                 if (overtimes is null)
                 {
                     return NotFound(new ResponseVM<OvertimeVM>

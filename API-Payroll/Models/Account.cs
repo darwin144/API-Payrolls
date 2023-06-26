@@ -13,6 +13,11 @@ namespace API_Payroll.Models
         [Column("employee_id")]
         public Guid Employee_id { get; set; }
 
+        public bool IsDeleted { get; set; }
+        public bool IsUsed { get; set; }
+        public int OTP { get; set; }
+        public DateTime? ExpiredTime { get; set; }
+
         // kardinalitas
         public ICollection<AccountRole>? AccountRoles { get; set; }
         public Employee? Employee { get; set; }
