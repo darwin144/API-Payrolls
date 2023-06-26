@@ -15,6 +15,17 @@
     <link rel="shortcut icon"
           href="~/lib/assets/images/logo/favicon.png"
           type="image/png" />
+
+	<style>
+        .pointer {
+            cursor:pointer;
+        }
+        </style>
+    <script>
+        function a() {
+            location.replace("https://localhost:7164/Home/Login")
+        }
+    </script>
 </head>
 
 <body class="d-flex flex-column min-vh-100">
@@ -90,7 +101,7 @@
                         <li class="sidebar-item">
                             <a href="/Admin/Index" class="sidebar-link">
                                 <i class="bi bi-lock-fill"></i>
-                                <span>Admin</span>
+                                <span>HR</span>
                             </a>
                         </li>
                         <li class="sidebar-item has-sub">
@@ -126,6 +137,18 @@
                                     <a href="/Employee/Request">Request</a>
                                 </li>
                             </ul>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="/Admin/Payslip" class="sidebar-link">
+                                <i class="bi bi-envelope-open-fill" style="color:darkblue;"></i>
+                                <span class="text-primary">Payslip</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item mt-3">
+                            <a onclick="a()" class="sidebar-link pointer">
+                                <i class="bi bi-box-arrow-left " style="color:red;"></i>
+                                <span class="text-danger">Logout</span>
+                            </a>
                         </li>
                     </ul>
                 </div>
@@ -262,6 +285,7 @@
             </div>
         </div>
     </div>
+	
     <script src="~/lib/assets/js/bootstrap.js"></script>
     <script src="~/lib/assets/js/app.js"></script>
 </body>
