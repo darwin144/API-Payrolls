@@ -25,5 +25,9 @@ namespace Client.Controllers
         {
             return View();
         }
+
+        public async Task<IActionResult> CreateOvertime() {
+            return View();
+        }
     }
 }
