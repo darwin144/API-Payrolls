@@ -12,7 +12,7 @@ namespace Client.Controllers
     [AllowAnonymous]
     public class EmployeeController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Payslip()
         {
             return View();
         }

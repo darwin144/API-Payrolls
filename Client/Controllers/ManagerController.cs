@@ -24,5 +24,9 @@ namespace Client.Controllers
         {
             return View();
         }
+        public IActionResult Payslip()
+        {
+            return View();
+        }
     }
 }

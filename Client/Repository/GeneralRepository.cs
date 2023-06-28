@@ -1,4 +1,5 @@
-﻿using Client.Repository.Interface;
+﻿using Client.Repositories.Interface;
+using Client.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
@@ -30,48 +31,64 @@ namespace Client.Repository
             //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", _contextAccessor.HttpContext.Session.GetString("JWToken"));
         }
 
-        public HttpStatusCode Delete(TId guid)
+        public async Task<ResponseMessageVM> Deletes(TId Guid)
         {
-            var result = httpClient.DeleteAsync(request + guid).Result;
-            return result.StatusCode;
-        }
-
-        public async Task<List<TEntity>> Get()
-        {
-            List<TEntity> entities = new List<TEntity>();
-
-            using (var response = await httpClient.GetAsync(request))
+            ResponseMessageVM entityVM = null;
+            using (var response = httpClient.DeleteAsync(request + Guid).Result)
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
-                entities = JsonConvert.DeserializeObject<List<TEntity>>(apiResponse);
+                entityVM = JsonConvert.DeserializeObject<ResponseMessageVM>(apiResponse);
             }
-            return entities;
+            return entityVM;
         }
 
-        public async Task<TEntity> Get(TId guid)
+        public async Task<ResponseViewModel<TEntity>> Get(TId id)
         {
-            TEntity entity = null;
+            ResponseViewModel<TEntity> entity = null;
 
-            using (var response = await httpClient.GetAsync(request + guid))
+            using (var response = await httpClient.GetAsync(request + id))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
-                entity = JsonConvert.DeserializeObject<TEntity>(apiResponse);
+                entity = JsonConvert.DeserializeObject<ResponseViewModel<TEntity>>(apiResponse);
             }
             return entity;
         }
 
-        public HttpStatusCode Put(TEntity entity)
+        public async Task<ResponseMessageVM> Put(TEntity entity)
         {
+            ResponseMessageVM entityVM = null;
             StringContent content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
-            var result = httpClient.PutAsync(request, content).Result;
-            return result.StatusCode;
+            using (var response = httpClient.PutAsync(request, content).Result)
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                entityVM = JsonConvert.DeserializeObject<ResponseMessageVM>(apiResponse);
+            }
+            return entityVM;
         }
 
-        public HttpStatusCode Post(TEntity entity)
+
+        public async Task<ResponseMessageVM> Post(TEntity entity)
         {
+            ResponseMessageVM entityVM = null;
             StringContent content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
-            var result = httpClient.PostAsync(request, content).Result;
-            return result.StatusCode;
+            using (var response = httpClient.PostAsync(request, content).Result)
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                entityVM = JsonConvert.DeserializeObject<ResponseMessageVM>(apiResponse);
+            }
+            return entityVM;
+        }
+
+        public async Task<ResponseListVM<TEntity>> Get()
+        {
+            ResponseListVM<TEntity> entityVM = null;
+            //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
+            using (var response = await httpClient.GetAsync(request))
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                entityVM = JsonConvert.DeserializeObject<ResponseListVM<TEntity>>(apiResponse);
+            }
+            return entityVM;
         }
     }
 }

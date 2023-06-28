@@ -91,11 +91,19 @@
                                 <span>Home</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
-                            <a href="/Admin/Index" class="sidebar-link">
+                        <li class="sidebar-item has-sub">
+                            <a href="#" class="sidebar-link">
                                 <i class="bi bi-lock-fill"></i>
-                                <span>Admin</span>
+                                <span>HR</span>
                             </a>
+                            <ul class="submenu">
+                                <li class="submenu-item">
+                                    <a href="/Admin/ListEmployee">Data Employee</a>
+                                </li>
+                                <li class="submenu-item">
+                                    <a href="/Admin/Payroll">Data Payslip</a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="sidebar-item has-sub">
                             <a href="#" class="sidebar-link">
@@ -104,13 +112,17 @@
                             </a>
                             <ul class="submenu">
                                 <li class="submenu-item">
+                                    <a href="/Manager/Index">Dashboard</a>
+                                </li>
+
+                                <li class="submenu-item">
+                                    <a href="/Manager/List">Overtime Request</a>
+                                </li>
+                                <li class="submenu-item">
                                     <a href="/Manager/Profile">Profile</a>
                                 </li>
                                 <li class="submenu-item">
-                                    <a href="/Manager/Index">Dashboard</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="/Manager/List">Manager</a>
+                                    <a href="/Manager/Payslip">Payslip</a>
                                 </li>
                             </ul>
                         </li>
@@ -121,22 +133,17 @@
                             </a>
                             <ul class="submenu">
                                 <li class="submenu-item">
+                                    <a href="/Employee/Payslip">Payslip</a>
+                                </li>
+                                <li class="submenu-item">
+                                    <a href="/Employee/Request">Overtime</a>
+                                </li>
+                                <li class="submenu-item">
                                     <a href="/Employee/Profile">Profile</a>
                                 </li>
-                                <li class="submenu-item">
-                                    <a href="/Employee/Dashboard">Dashboard</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="/Employee/Request">Request</a>
-                                </li>
+
                             </ul>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="/Admin/Payslip" class="sidebar-link">
-                                <i class="bi bi-envelope-open-fill" style="color:darkblue;"></i>
-                                <span class="text-primary">Payslip</span>
-                            </a>
-                        </li>
+
                         <li class="sidebar-item mt-3">
                             <a href="/Home/Login" class="sidebar-link">
                                 <i class="bi bi-box-arrow-left " style="color:red;"></i>
