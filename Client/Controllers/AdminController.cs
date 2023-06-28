@@ -12,7 +12,11 @@ namespace Client.Controllers
     [AllowAnonymous]
     public class AdminController : Controller
     {
-        public IActionResult Index()
+		public IActionResult Payroll()
+		{
+			return View();
+		}
+		public IActionResult ListEmployee()
         {
             return View();
         }

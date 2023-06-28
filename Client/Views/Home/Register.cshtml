@@ -15,7 +15,31 @@
           href="~/lib/assets/images/logo/favicon.png"
           type="image/png" />
     <link rel="stylesheet" href="~/lib/assets/extensions/choices.js/public/assets/styles/choices.css">
+    <!-- Include CSS file for Bootstrap Datepicker -->
+    <!-- Include CSS file for Bootstrap Datepicker -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
 
+    <!-- Include necessary libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+    <!-- Additional scripts -->
+    <script>
+        $(document).ready(function () {
+            $('#birthdate-input').datepicker({
+                format: 'yyyy-mm-dd',
+                autoclose: true,
+                todayHighlight: true
+            });
+
+            $('#hiringdate-input').datepicker({
+                format: 'yyyy-mm-dd',
+                autoclose: true,
+                todayHighlight: true
+            });
+        });
+    </script>
+   
     <style>
         body,
         html {
@@ -127,17 +151,57 @@
                            class="form-control form-control-md"
                            placeholder="Lastname" />
                 </div>
-                <h6 class="text-sm">Gender</h6>
-                <div class ="form-group position-relative has-icon-left mb-3">
+
+                <div class="form-group position-relative has-icon-left mb-3">
                     <div class="form-control-icon">
-                        <i class="bi bi-person"></i>
+                        <i class="bi bi-gender-male-female"></i>
                     </div>
-                    <fieldset class="form-group">
-                        <select class="form-select" id="basicSelect">
-                            <option>Laki-Laki</option>
-                            <option>Perempuan</option>
-                        </select>
-                    </fieldset>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="gender" id="gender-male" value="Laki-Laki">
+                        <label class="form-check-label" for="gender-male">
+                            Laki-Laki
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="gender" id="gender-female" value="Perempuan">
+                        <label class="form-check-label" for="gender-female">
+                            Perempuan
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group position-relative has-icon-left mb-3">
+                    <div class="form-control-icon">
+                        <i class="bi bi-calendar"></i>
+                    </div>
+                    <input type="text" class="form-control form-control-md" placeholder="Birthdate" id="birthdate-input">
+                </div>
+
+                <div class="form-group position-relative has-icon-left mb-3">
+                    <div class="form-control-icon">
+                        <i class="bi bi-calendar-check"></i>
+                    </div>
+                    <input type="text" class="form-control form-control-md" placeholder="Hiring Date" id="hiringdate-input">
+                </div>
+
+                <div class="form-group position-relative has-icon-left mb-3">
+                    <div class="form-control-icon">
+                        <i class="bi bi-telephone"></i>
+                    </div>
+                    <input type="text" class="form-control form-control-md" placeholder="Phone Number" />
+                </div>
+
+                <div class="form-group position-relative has-icon-left mb-3">
+                    <div class="form-control-icon">
+                        <i class="bi bi-person-badge"></i>
+                    </div>
+                    <input type="text" class="form-control form-control-md" placeholder="EmployeeLevel ID" />
+                </div>
+
+                <div class="form-group position-relative has-icon-left mb-3">
+                    <div class="form-control-icon">
+                        <i class="bi bi-building"></i>
+                    </div>
+                    <input type="text" class="form-control form-control-md" placeholder="Department ID" />
                 </div>
                 <div class="form-group position-relative has-icon-left mb-3">
                     <div class="form-control-icon">
@@ -167,4 +231,6 @@
             </div>
         </div>
     </div>
+
+    
 </body>
