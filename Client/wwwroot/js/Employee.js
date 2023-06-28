@@ -1,4 +1,23 @@
-﻿let nik = $("#sesNIK").text();
+﻿//new created
+function ModalCreateOvertime() {
+    $('#createOvertime').modal('show');
+}
+
+function closeModal() {
+    $('#createOvertime').modal('hide');
+}
+
+
+
+
+
+
+
+
+
+
+
+/*let nik = $("#sesNIK").text();
 let jumlSisa;
 
 $.ajax({
@@ -131,7 +150,7 @@ function AddOvertimeT() {
     let sisaOvr = Date.parse(Overtime.EndOvertime) - Date.parse(Overtime.StartOvertime);
     jumlSisa -= parseInt(msToTime(sisaOvr))
     $("#sisa").val(jumlSisa + " Jam");
-    /*validate Start & End same*/
+    *//*validate Start & End same*//*
     if (Overtime.StartOvertime == Overtime.EndOvertime) {
         Errors + "Start and End Can't Same.<br>";
         $('#startOvertimeTxt').addClass("border-danger");
@@ -275,4 +294,4 @@ $(document).ready(function () {
             }
         ]
     });
-});
+});*/

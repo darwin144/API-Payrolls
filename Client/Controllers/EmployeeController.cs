@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Client.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -25,8 +26,10 @@ namespace Client.Controllers
         {
             return View();
         }
-
-        public async Task<IActionResult> CreateOvertime() {
+        [HttpPost]
+        public async Task<IActionResult> CreateOvertime(Overtime overtime) {
+            
+                        
             return View();
         }
     }
