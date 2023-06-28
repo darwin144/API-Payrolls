@@ -1,8 +1,4 @@
-﻿/*using API.Models;
-using API.ViewModels;
-using Client.Base;
-using Client.Repository.Data;*/
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
