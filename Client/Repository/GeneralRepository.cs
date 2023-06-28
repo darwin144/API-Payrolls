@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,19 +17,19 @@ namespace Client.Repository
         where TEntity : class
     {
         private readonly string request;
-/*        private readonly IHttpContextAccessor _contextAccessor;
-*/        private readonly HttpClient httpClient;
+        private readonly IHttpContextAccessor _contextAccessor;
+        private readonly HttpClient httpClient;
 
         public GeneralRepository(string request)
         {
 
             this.request = request;
-/*            _contextAccessor = new HttpContextAccessor();
-*/            httpClient = new HttpClient
+            _contextAccessor = new HttpContextAccessor();
+            httpClient = new HttpClient
             {
-                BaseAddress = new Uri("https://localhost:44325/api/")
+                BaseAddress = new Uri("https://localhost:7165/API-Payroll/")
             };
-            //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", _contextAccessor.HttpContext.Session.GetString("JWToken"));
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", _contextAccessor.HttpContext.Session.GetString("JWToken"));
         }
 
         public async Task<ResponseMessageVM> Deletes(TId Guid)
