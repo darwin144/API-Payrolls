@@ -81,7 +81,7 @@
     <div id="auth">
         <div class="auth-card">
             <div class="auth-logo">
-                <a href="index.html">
+                <a href="">
                     <img src="https://www.metrodataacademy.id/static/media/logo_metrodata_academy.f40277dc.svg"
                          alt="Logo"
                          width="150px" />
@@ -91,8 +91,9 @@
             <p class="auth-subtitle mb-4">
                 Log in with your data that you entered during registration.
             </p>
+            
 
-            <form asp-action="Logins">
+            <form asp-action="Login">
                 <div class="form-group position-relative has-icon-left mb-3">
                     <input asp-for="Email"
                            class="form-control form-control-md"
@@ -109,6 +110,12 @@
                         <i class="bi bi-shield-lock"></i>
                     </div>
                 </div>
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div class=" text-sm" style="color:red;">
+                        @TempData["ErrorMessage"]
+                    </div>
+                }
                 <div class="form-check form-check-sm d-flex align-items-end mb-3">
                     <input class="form-check-input me-2"
                            type="checkbox"
@@ -123,6 +130,9 @@
                     Log in
                 </button>
             </form>
+
+            
+
             <div class="text-center">
                 <p class="text-gray-600">
                     Don't have an account?

@@ -29,17 +29,29 @@ namespace Client.Repository.Data
 
         }
 
-        public async Task<ResponseViewModel<string>> Logins(LoginVM entity)
+        public async Task<ResponseViewModel<string>> Login(LoginVM login)
         {
-            ResponseViewModel<string> entityVM = null;
-            StringContent content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
+             ResponseViewModel<string> entityVM = null;
+            StringContent content = new StringContent(JsonConvert.SerializeObject(login), Encoding.UTF8, "application/json");
             using (var response = httpClient.PostAsync(request + "Login", content).Result)
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
-                entityVM = JsonConvert.DeserializeObject<ResponseViewModel<string>>(apiResponse);
+                entityVM = JsonConvert.DeserializeObject < ResponseViewModel<string>> (apiResponse);
             }
             return entityVM;
         }
 
+        /*public async Task<JWTokenVM> Auth(LoginVM login)
+        {
+            JWTokenVM token = null;
+
+            StringContent content = new StringContent(JsonConvert.SerializeObject(login), Encoding.UTF8, "application/json");
+            var result = await httpClient.PostAsync(request + "Login/", content);
+
+            string apiResponse = await result.Content.ReadAsStringAsync();
+            token = JsonConvert.DeserializeObject<JWTokenVM>(apiResponse);
+
+            return token;
+        }*/
     }
 }

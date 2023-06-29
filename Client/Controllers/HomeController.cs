@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using Client.Models;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Linq;
@@ -38,28 +39,63 @@ namespace Client.Controllers
         {
             return View();
         }
+
         [HttpPost]
-        /*[ValidateAntiForgeryToken]*/
-        public async Task<IActionResult> Logins(LoginVM login)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginVM login)
         {
-            var result = await _repository.Logins(login);
-            if (result is null)
+            var jwtToken = await _repository.Login(login);
+
+            if (jwtToken == null || jwtToken.Data == null)
             {
-                return RedirectToAction("Error", "Home");
+                TempData["ErrorMessage"] = "Email or password is incorrect.";
+                return RedirectToAction("Login", "Home");
             }
-            else if (result.Code == 409)
+            var token = jwtToken.Data;
+            var claim = ExtractClaims(token);
+            var roleClaim = claim.FirstOrDefault(c => c.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role");
+            var role = roleClaim != null ? roleClaim.Value : null;
+            var idClaim = claim.FirstOrDefault(c => c.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/primarysid");
+            var id = idClaim != null ? idClaim.Value : null;
+            if (token == null)
             {
-                ModelState.AddModelError(string.Empty, result.Message);
-                return View();
+                return RedirectToAction("forgotpassword", "Home");
             }
-            else if (result.Code == 200)
+
+            HttpContext.Session.SetString("JWToken", token);
+            HttpContext.Session.SetString("id", id);
+
+
+            if (role.Contains("Employee"))
             {
-                HttpContext.Session.SetString("JWToken", result.Data);
+                return RedirectToAction("Profile", "Employee");
+            }
+            else if (role.Contains("Manager"))
+            {
+                return RedirectToAction("Index", "Manager");
+            }
+            else if (role.Contains("Admin"))
+            {
+                return RedirectToAction("listemployee", "Admin");
+            }
+            else
+            {
                 return RedirectToAction("Index", "Home");
             }
-            return View();
-
         }
+
+        public IEnumerable<Claim> ExtractClaims(string jwtToken)
+        {
+            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+            JwtSecurityToken securityToken = (JwtSecurityToken)tokenHandler.ReadToken(jwtToken);
+            IEnumerable<Claim> claims = securityToken.Claims;
+            return claims;
+        }
+
+        
+
+   
+
         public IActionResult Register()
         {
             return View();
@@ -111,5 +147,46 @@ namespace Client.Controllers
         {
             return View("403");
         }
+
+        /*[HttpPost]
+        public async Task<IActionResult> Auth(LoginVM login)
+        {
+            var jwtToken = await _repository.Auth(login);
+            var token = jwtToken.IdToken;
+            var claim = ExtractClaims(token);
+            var role = claim.Where(claim => claim.Type == "role").Select(s => s.Value).ToList();
+            var nik = claim.Where(claim => claim.Type == "nik").Select(s => s.Value).Single();
+
+            if (token == null)
+            {
+                return RedirectToAction("index");
+            }
+
+            HttpContext.Session.SetString("JWToken", token);
+            HttpContext.Session.SetString("nik", nik);
+
+
+
+            if (role.Contains("Finance"))
+            {
+                return RedirectToAction("index", "finance");
+            }
+            else if (role.Contains("Manager"))
+            {
+                return RedirectToAction("index", "manager");
+            }
+            else
+            {
+                return RedirectToAction("index", "employee");
+            }
+        }
+
+        public IEnumerable<Claim> ExtractClaims(string jwtToken)
+        {
+            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+            JwtSecurityToken securityToken = (JwtSecurityToken)tokenHandler.ReadToken(jwtToken);
+            IEnumerable<Claim> claims = securityToken.Claims;
+            return claims;
+        }*/
     }
 }
