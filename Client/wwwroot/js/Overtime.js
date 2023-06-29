@@ -5,6 +5,14 @@ const guid = $("#guidEmployee").text();
 
 
 $.ajax({
+    url: "https://localhost:7165/API-Payroll/Employee/",
+    type: "GET",
+    success: (result) => {
+        console.log(result);
+    }
+});
+
+/*$.ajax({
     url: `https://localhost:7165/API-Payroll/Overtime/EmployeeId/${guid}`,
     dataType: "json",
     method: "GET",
@@ -13,7 +21,7 @@ $.ajax({
         console.log(data);
     }
 });
-
+*/
 
 
 /*$(document).ready(function () {

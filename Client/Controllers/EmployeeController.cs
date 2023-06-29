@@ -1,5 +1,6 @@
 ﻿using Client.Models;
 using Client.Repository.Interface;
+using Client.ViewModels.Overtime;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -79,24 +80,28 @@ namespace Client.Controllers
 
         }
 
-        [HttpGet("{Guid}")]
+        [HttpGet]
         public async Task<IActionResult> GetAllOvertimeById() {
 
 			var token = HttpContext.Session.GetString("JWToken");
 			var claim = ExtractClaims(token);
 			var guidEmployee = claim.Where(claim => claim.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/primarysid").Select(s => s.Value).Single();
-			
-            var result = await _overtimeRepository.GetOvertimeByemployeeGuid(Guid.Parse(guidEmployee));
-			
-            if (result != null)
-			{
+			var fullname = claim.Where(claim => claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name").Select(s => s.Value).Single();
 
-				return View("GetAllOvertimeById", result);
+            var overtimes = await _overtimeRepository.GetOvertimeByemployeeGuid(Guid.Parse(guidEmployee));            
+         
+
+            if (overtimes != null)
+			{
+                foreach (var item in overtimes) {
+                    item.FullName = fullname;
+                }
+				return View("GetAllOvertimeById", overtimes);
 			}
 
 
 			return RedirectToAction("Error", "Home");
-		}
+		 }
 		public IEnumerable<Claim> ExtractClaims(string jwtToken)
 		{
 			JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
