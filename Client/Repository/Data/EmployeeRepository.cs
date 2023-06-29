@@ -1,20 +1,20 @@
 ﻿using Client.Models;
-using System.Net;
+using Client.Repositories;
+using Client.Repository.Interface;
 
 namespace Client.Repository.Data
 {
-    public class EmployeeRepository : GeneralRepository<Employee, Guid>
+    public class EmployeeRepository : GeneralRepository<Employee, Guid>, IEmployeeRepository
     {
-		
-		public EmployeeRepository(string request = "Employee/"): base(request)
-		{
-		
-		}
-		public async Task<string> CreateRequest() {
-			
-			
-			return "";
-		}
-
+        private readonly HttpClient httpClient;
+        private readonly string request;
+        public EmployeeRepository(string request = "Employee/") : base(request)
+        {
+            this.request = request;
+            httpClient = new HttpClient
+            {
+                BaseAddress = new Uri("https://localhost:7165/API-Payroll/")
+            };
+        }
     }
 }
