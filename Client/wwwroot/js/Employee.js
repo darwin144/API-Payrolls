@@ -1,4 +1,4 @@
-﻿//new created
+﻿
 function ModalCreateOvertime() {
     $('#createOvertime').modal('show');
 }
@@ -6,9 +6,6 @@ function ModalCreateOvertime() {
 function closeModal() {
     $('#createOvertime').modal('hide');
 }
-
-
-
 
 
 
