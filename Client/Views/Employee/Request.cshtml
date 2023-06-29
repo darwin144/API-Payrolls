@@ -1,4 +1,6 @@
-﻿@model Client.Models.Overtime
+﻿@*@model IEnumerable<Client.Models.Overtime>
+*@
+@model Client.Models.Overtime
 
 @{
 	ViewData["Title"] = "Request";
@@ -38,29 +40,21 @@
 			</div>
 		</div>
 
-
+		<h4 hidden id="guidEmployee" rows="6" cols="150">@ViewData["guidEmployee"]</h4>
 
 		<section class="section">
 			<div class="card">
-<<<<<<< HEAD
+
 				<div class="">
 
-					</br><button type="button" class="btn btn-primary float-end me-4" data-toggle="modal" data-target="#modalTambah">
+					<button type="button" class="btn btn-primary float-end me-4" data-toggle="modal" data-target="#createOvertime" onclick="ModalCreateOvertime()">
 						Add Overtime
 					</button>
 				</div>
 
-=======
-				<div class="card-header">Simple Datatable</div>
-				
-				<button type="button" class="btn btn-primary float-end mx-4 my-2" data-toggle="modal" data-target="#createOvertime" onclick="ModalCreateOvertime()">
-					Add Overtime
-				</button>
->>>>>>> 3f5874bb038125f2991be10154020068575bee9b
-
 				
 				<div class="card-body">
-					<table class="table table-striped" id="table1">
+					<table class="table table-striped" id="tableOvertime">
 						<thead>
 							<tr>
 								<th>No</th>
@@ -75,8 +69,9 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>1</td>
+							
+@*							<tr>
+								<td>l</td>
 								<td>1112233</td>
 								<td>Vehicula</td>
 								<td>12/11/2023</td>
@@ -91,47 +86,12 @@
 									<button class="badge bg-success">Detail</button>
 								</td>
 
-							</tr>
-							<tr>
-								<td>2</td>
-								<td>4412233</td>
-								<td>Rahina</td>
-								<td>12/11/2023</td>
-								<td>3 Jam</td>
-								<td>50,000</td>
-								<td>Gatau</td>
-								<td>
-									<span class="badge bg-success">Active</span>
-								</td>
-								<td>
-									<button class="badge bg-danger">Edit</button>
-									<button class="badge bg-success">Detail</button>
-								</td>
-
-
-
-							</tr>
-							<tr>
-								<td>3</td>
-								<td>22212233</td>
-								<td>Vena</td>
-								<td>12/11/2023</td>
-								<td>2 Jam</td>
-								<td>500,000</td>
-								<td>Gatau</td>
-								<td>
-									<span class="badge bg-success">Active</span>
-								</td>
-								<td>
-									<button class="badge bg-danger">Edit</button>
-									<button class="badge bg-success">Detail</button>
-								</td>
-
-							</tr>
-
-
+							</tr>						
+*@							
 						</tbody>
 					</table>
+
+
 
 
 					<!-- Modal Create Overtime -->
@@ -170,7 +130,7 @@
 										</div>
 										<div class="form-group">
 											<label asp-for="Deskripsi" class="control-label"></label>
-											<input asp-for="Deskripsi" class="form-control" />
+											<input asp-for="Deskripsi" class="form-control" required data-msg-required="Description is required!" />
 											<span asp-validation-for="Deskripsi" class="text-danger"></span>
 										</div>
 										<div class="form-group" hidden>
@@ -188,16 +148,13 @@
 											<input asp-for="Employee_id" class="form-control" />
 											<span asp-validation-for="Employee_id" class="text-danger"></span>
 										</div>
-@*										<div class="form-group">
+										<div class="form-group">
 											<input type="submit" value="Create" class="btn btn-primary" />
-										</div>*@
-									</form>
+											<button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal()">Close</button>
+										</div>
 
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal()">Close</button>
-									<button type="submit" class="btn btn-primary" asp-controller="Employee" asp-action="CreateOvertime">Submit</button>
-								</div>
+									</form>
+								</div>								
 							</div>
 						</div>
 					</div>
@@ -226,12 +183,6 @@
 		</div>
 	</footer>
 </div>
-<<<<<<< HEAD
-</div>
-
-=======
-	
->>>>>>> 3f5874bb038125f2991be10154020068575bee9b
 
 
 

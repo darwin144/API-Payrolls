@@ -1,4 +1,4 @@
-﻿using Client.Repositories.Interface;
+﻿using Client.Repository.Interface;
 using Client.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
@@ -13,17 +13,17 @@ using System.Threading.Tasks;
 
 namespace Client.Repository
 {
-    public class GeneralRepository<TEntity, TId> : IRepository<TEntity, TId>
+	public class GeneralRepository<TEntity, TId> : IGeneralRepository<TEntity, TId>
         where TEntity : class
     {
-        private readonly string request;
-        private readonly IHttpContextAccessor _contextAccessor;
-        private readonly HttpClient httpClient;
+        public readonly string _request;
+		public readonly IHttpContextAccessor _contextAccessor;
+		public readonly HttpClient httpClient;
 
         public GeneralRepository(string request)
         {
 
-            this.request = request;
+            _request = request;
             _contextAccessor = new HttpContextAccessor();
             httpClient = new HttpClient
             {
@@ -35,7 +35,7 @@ namespace Client.Repository
         public async Task<ResponseMessageVM> Deletes(TId Guid)
         {
             ResponseMessageVM entityVM = null;
-            using (var response = httpClient.DeleteAsync(request + Guid).Result)
+            using (var response = httpClient.DeleteAsync(_request + Guid).Result)
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 entityVM = JsonConvert.DeserializeObject<ResponseMessageVM>(apiResponse);
@@ -47,7 +47,7 @@ namespace Client.Repository
         {
             ResponseViewModel<TEntity> entity = null;
 
-            using (var response = await httpClient.GetAsync(request + id))
+            using (var response = await httpClient.GetAsync(_request + id))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 entity = JsonConvert.DeserializeObject<ResponseViewModel<TEntity>>(apiResponse);
@@ -59,7 +59,7 @@ namespace Client.Repository
         {
             ResponseMessageVM entityVM = null;
             StringContent content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
-            using (var response = httpClient.PutAsync(request, content).Result)
+            using (var response = httpClient.PutAsync(_request, content).Result)
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 entityVM = JsonConvert.DeserializeObject<ResponseMessageVM>(apiResponse);
@@ -72,7 +72,7 @@ namespace Client.Repository
         {
             ResponseMessageVM entityVM = null;
             StringContent content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
-            using (var response = httpClient.PostAsync(request, content).Result)
+            using (var response = httpClient.PostAsync(_request, content).Result)
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 entityVM = JsonConvert.DeserializeObject<ResponseMessageVM>(apiResponse);
@@ -84,7 +84,7 @@ namespace Client.Repository
         {
             ResponseListVM<TEntity> entityVM = null;
             //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
-            using (var response = await httpClient.GetAsync(request))
+            using (var response = await httpClient.GetAsync(_request))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 entityVM = JsonConvert.DeserializeObject<ResponseListVM<TEntity>>(apiResponse);

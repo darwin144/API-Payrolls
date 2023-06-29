@@ -13,9 +13,9 @@ namespace Client.Models
         public DateTime EndOvertime { get; set; }
         
         public DateTime SubmitDate { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Deskripsi harus diisi!")]
         public string Deskripsi { get; set; }
-      
+        
         public int Paid { get; set; }
        
         public Status Status { get; set; }
