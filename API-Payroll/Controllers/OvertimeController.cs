@@ -15,18 +15,19 @@ namespace API_Payroll.Controllers
     {
         private readonly IEmployeeOvertimeRepository _overtimeRepository;
         private readonly IMapper<Overtime, OvertimeVM> _mapper;
-
-        public OvertimeController(IEmployeeOvertimeRepository overtimeRepository, IMapper<Overtime, OvertimeVM> mapper) : base(overtimeRepository, mapper)
+        private readonly IMapper<Overtime, OvertimeCreateVM> _mapperCreate;
+        public OvertimeController(IEmployeeOvertimeRepository overtimeRepository, IMapper<Overtime, OvertimeVM> mapper, IMapper<Overtime, OvertimeCreateVM> mapperCreate) : base(overtimeRepository, mapper)
         {
             _overtimeRepository = overtimeRepository;
             _mapper = mapper;
+            _mapperCreate = mapperCreate;
         }
 
         [Authorize(Roles = "Employee")]
         [HttpPost("OvertimeRequest")]
-        public IActionResult Created(OvertimeVM modelVM)
+        public IActionResult Created(OvertimeCreateVM modelVM)
         {
-            var model = _mapper.Map(modelVM);
+            var model = _mapperCreate.Map(modelVM);
             var result = _overtimeRepository.CreateRequest(model);
             if (result is null)
             {

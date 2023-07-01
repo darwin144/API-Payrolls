@@ -61,41 +61,11 @@ namespace API_Payroll.Repositories
             var today = DateTime.Today;
             var targetDate = new DateTime(today.Year, today.Month, 25);
 
-
-            var modelsVM =  _context.Payrolls.Join(_context.Employees, p => p.Employee_id, e => e.Id, (p, e) => new { p, e })
-                            .Join(_context.EmployeeLevels, pe => pe.e.EmployeeLevel_id, el => el.Id, (pe, el) => new { pe, el })
-                            .Join(_context.Overtimes, pel => pel.pe.e.Id, o => o.Employee_id, (pel,o) => new {pel,o })
-                            .Join(_context.Departments, pelo => pelo.pel.pe.e.Department_id, d => d.Id, (pelo, d) => new {pelo,d})
-                            .GroupBy(result => result.pelo.pel.pe.e.Id)
-                            .Select(group => new PayrollPrintVM              
-                            {
-                                Id = group.First().pelo.pel.pe.p.Id,
-                                PayDate = group.First().pelo.pel.pe.p.PayDate.ToString("dd MMMM yyyy", new CultureInfo("id-ID")),
-                                Fullname = group.First().pelo.pel.pe.e.FirstName + " " + group.First().pelo.pel.pe.e.LastName,
-                                Department = group.First().d.Name,
-                                Title = group.First().pelo.pel.el.Title,
-                                Allowence = group.First().pelo.pel.el.Allowence,
-                                Overtime = _context.Overtimes.Where(a => a.Employee_id == group.First().pelo.pel.pe.e.Id && a.SubmitDate.Day <= targetDate.Day && a.Status == Status.Approved)
-                                    .Select(a => a.Paid).Sum(),
-                                //Overtime = group.Sum(item => item.pelo.o.Paid),
-                                PayrollCuts = group.First().pelo.pel.pe.p.PayrollCuts,
-                                TotalSalary = group.First().pelo.pel.pe.p.TotalSalary                                
-                            }).ToList();
-            
-            return modelsVM;
-        }
-
-        //belum fiks
-        public IEnumerable<PayrollPrintVM> GetAllDetailPayrollsByEmployeeID(Guid id)
-        {
-            var today = DateTime.Today;
-            var targetDate = new DateTime(today.Year, today.Month, 25);
-            var endDate = targetDate.AddDays(-30);
-
-            var modelsVM = _context.Payrolls.Where(a => a.Employee_id == id).Join(_context.Employees, p => p.Employee_id, e => e.Id, (p, e) => new { p, e })
+            var modelsVM = _context.Payrolls
+                            .Join(_context.Employees, p => p.Employee_id, e => e.Id, (p, e) => new { p, e })
                             .Join(_context.EmployeeLevels, pe => pe.e.EmployeeLevel_id, el => el.Id, (pe, el) => new { pe, el })
                             .Join(_context.Overtimes, pel => pel.pe.e.Id, o => o.Employee_id, (pel, o) => new { pel, o })
-                            .Join(_context.Departments, pelo => pelo.pel.pe.e.Department_id, d => d.Id, (pelo, d) =>  new PayrollPrintVM
+                            .Join(_context.Departments, pelo => pelo.pel.pe.e.Department_id, d => d.Id, (pelo, d) => new PayrollPrintVM
                             {
                                 Id = pelo.pel.pe.p.Id,
                                 PayDate = pelo.pel.pe.p.PayDate.ToString("dd MMMM yyyy", new CultureInfo("id-ID")),
@@ -103,13 +73,31 @@ namespace API_Payroll.Repositories
                                 Department = d.Name,
                                 Title = pelo.pel.el.Title,
                                 Allowence = pelo.pel.el.Allowence,
-                                Overtime = _context.Overtimes.Where(a => a.Employee_id == pelo.pel.pe.e.Id && a.SubmitDate.Day <= targetDate.Day && a.SubmitDate.Day >= endDate.Day && a.Status == Status.Approved)
-                                    .Select(a => a.Paid).Sum(),
+                                Overtime = _context.Overtimes.Where(a => a.Employee_id == pelo.pel.pe.e.Id && a.SubmitDate.Day <= targetDate.Day && a.Status == Status.Approved)
+                                                     .Select(a => a.Paid).Sum(),
                                 PayrollCuts = pelo.pel.pe.p.PayrollCuts,
-                                TotalSalary = pelo.pel.pe.p.TotalSalary
-                            }).ToList();
+                                TotalSalary = pelo.pel.pe.p.TotalSalary,
+                                Employee_id = pelo.pel.pe.e.Id
+                            }).Distinct()
+                            .ToList();
 
             return modelsVM;
+        }
+
+        
+        public IEnumerable<PayrollPrintVM> GetAllDetailPayrollsByEmployeeID(Guid id)
+        {
+            var listPayrollEmployee = new List<PayrollPrintVM>();
+            var listPayroll = GetAllDetailPayrolls();
+            foreach (var item in listPayroll)
+            {
+                if (item.Employee_id == id)
+                {
+                    listPayrollEmployee.Add(item);
+                }
+            }
+            return listPayrollEmployee;
+
         }
     }
 }

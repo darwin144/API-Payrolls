@@ -13,7 +13,7 @@ namespace API_Payroll.ViewModels.Payrolls
         public int? Overtime { get; set; }
         public int? PayrollCuts { get; set; }
         public int TotalSalary { get; set; }
-//        public Guid Employee_id { get; set; }
+        public Guid? Employee_id { get; set; }
 
     }
 }
