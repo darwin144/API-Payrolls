@@ -13,9 +13,7 @@ namespace Client.Repository.Data
 	{
 		public OvertimeRepository(string request="Overtime/") : base(request)
 		{
-
 		}
-
 		public Task<int> ApprovalOvertime()
 		{
 			throw new NotImplementedException();

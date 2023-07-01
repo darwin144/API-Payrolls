@@ -10,21 +10,24 @@
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header pb-0">
-                    <h6 style="display: inline-block">Overtime Employees Table</h6>
+                    <h6 style="display: inline-block">List Overtime Request</h6>
                 </div>
+                <h4 hidden id="guidEmployee" rows="6" cols="150">@ViewData["guidEmployee"]</h4>
+                <h3 hidden id="token" rows="6" cols="150">@ViewData["token"]</h3>
+
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-2">
-                        <table class="table align-items-center mb-0" id="tblOvertime">
+                        <table class="table align-items-center mb-0" id="tableOvertimeApproval">
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">startOvertime</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">endOvertime</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">submitDate</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Paid</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">paid</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">deskripsi</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">action</th>
                                 </tr>
                             </thead>
                             <tbody id="employee" class="align-middle text-center"></tbody>

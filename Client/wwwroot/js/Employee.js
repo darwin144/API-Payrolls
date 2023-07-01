@@ -1,5 +1,4 @@
-﻿
-function ModalCreateOvertime() {
+﻿function ModalCreateOvertime() {
     $('#createOvertime').modal('show');
 }
 
@@ -292,3 +291,4 @@ $(document).ready(function () {
         ]
     });
 });*/
+

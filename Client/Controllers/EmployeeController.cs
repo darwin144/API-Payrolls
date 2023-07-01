@@ -14,8 +14,8 @@ using System.Threading.Tasks;
 
 namespace Client.Controllers
 {
-    /*    [Authorize(Roles = "Employee")]
-    */
+    [Authorize(Roles = "Employee")]
+
     [AllowAnonymous]
     public class EmployeeController : Controller
     {
@@ -30,7 +30,13 @@ namespace Client.Controllers
 
 		public IActionResult Payslip()
         {
-            return View();
+			var token = HttpContext.Session.GetString("JWToken");
+			var claim = ExtractClaims(token);
+			var guidEmployee = claim.Where(claim => claim.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/primarysid").Select(s => s.Value).Single();
+
+			ViewData["guidEmployee"] = guidEmployee;
+			ViewData["token"] = token;
+			return View();
         }
 
         public IActionResult Request()
@@ -40,7 +46,7 @@ namespace Client.Controllers
 			var guidEmployee = claim.Where(claim => claim.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/primarysid").Select(s => s.Value).Single();
 			
             ViewData["guidEmployee"] = guidEmployee;
-
+            ViewData["token"] = token;
 			return View();
         }
         public IActionResult Profile()
@@ -68,10 +74,10 @@ namespace Client.Controllers
                     if (result.Code == 200)
                     {
                         TempData["successMessage"] = "Data Berhasil Disubmit";
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Request", "Employee");
                     }
-
-                    return RedirectToAction("Error", "Home");
+                    
+                    return RedirectToAction("Request", "Employee");
                
             }
             catch { 

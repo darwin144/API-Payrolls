@@ -41,13 +41,11 @@
 		</div>
 
 		<h4 hidden id="guidEmployee" rows="6" cols="150">@ViewData["guidEmployee"]</h4>
+		<h3 hidden id="token" rows="6" cols="150">@ViewData["token"]</h3>
 
 		<section class="section">
 			<div class="card">
-<<<<<<< HEAD
-=======
 
->>>>>>> d9d9ae73007244422ce4c83683dec0dc5832bdd4
 				<div class="">
 
 					<button type="button" class="btn btn-primary float-end me-4" data-toggle="modal" data-target="#createOvertime" onclick="ModalCreateOvertime()">
@@ -55,49 +53,22 @@
 					</button>
 				</div>
 
-
-				<div class="card-header">Simple Datatable</div>
-				
-				<button type="button" class="btn btn-primary float-end mx-4 my-2" data-toggle="modal" data-target="#createOvertime" onclick="ModalCreateOvertime()">
-					Add Overtime
-				</button>
-
 				
 				<div class="card-body">
-					<table class="table table-striped" id="tableOvertime">
+					<table class="table table-striped" id="tableOvertimeBody">
 						<thead>
 							<tr>
-								<th>No</th>
-								<th>Nik</th>
-								<th>Name</th>
-								<th>Submit</th>
-								<th>Total</th>
-								<th>Paid</th>
-								<th>Type</th>
-								<th>Status</th>
-								<th>Actions</th>
+								<th text-uppercase>No</th>
+								<th text-uppercase>Start Overtime</th>
+								<th text-uppercase>End Overtime</th>
+								<th text-uppercase>Submit Date</th>
+								<th text-uppercase>Paid</th>
+								<th text-uppercase>Status</th>
+								<th text-uppercase>Actions</th>
 							</tr>
 						</thead>
 						<tbody>
 							
-@*							<tr>
-								<td>l</td>
-								<td>1112233</td>
-								<td>Vehicula</td>
-								<td>12/11/2023</td>
-								<td>20 Jam</td>
-								<td>5,000,000</td>
-								<td>Gatau</td>
-								<td>
-									<span class="badge bg-success">Active</span>
-								</td>
-								<td>
-									<button class="badge bg-danger">Edit</button>
-									<button class="badge bg-success">Detail</button>
-								</td>
-
-							</tr>						
-*@							
 						</tbody>
 					</table>
 
@@ -108,6 +79,13 @@
 					<div class="modal fade" id="createOvertime" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
+								<div class="auth-logo">
+									<a href="">
+										<img src="https://www.metrodataacademy.id/static/media/logo_metrodata_academy.f40277dc.svg"
+											 alt="Logo"
+											 width="150px" />
+									</a>
+								</div>
 								<div class="modal-header">
 									<h5 class="modal-title" id="exampleModalLabel">Create Overtime</h5>
 									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -194,7 +172,7 @@
 	</footer>
 </div>
 
-</div>
+
 
 
 

@@ -4,10 +4,12 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -91,5 +93,14 @@ namespace Client.Repository
             }
             return entityVM;
         }
-    }
+
+		public IEnumerable<Claim> ExtractClaims(string jwtToken)
+		{
+			JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+			JwtSecurityToken securityToken =  (JwtSecurityToken)tokenHandler.ReadToken(jwtToken);
+			IEnumerable<Claim> claims = securityToken.Claims;
+			return claims;
+		}
+
+	}
 }
