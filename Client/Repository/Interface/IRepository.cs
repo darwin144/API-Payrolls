@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Client.Repository.Interface
@@ -16,5 +17,6 @@ namespace Client.Repository.Interface
 		Task<ResponseMessageVM> Post(T entity);
 		Task<ResponseMessageVM> Put(T entity);
 		Task<ResponseMessageVM> Deletes(X Guid);
+		IEnumerable<Claim> ExtractClaims(string jwtToken);
 	}
 }

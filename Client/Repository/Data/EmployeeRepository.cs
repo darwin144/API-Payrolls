@@ -1,4 +1,6 @@
 ﻿using Client.Models;
+
+using Client.Repository.Interface;
 using Client.Repository.Interface;
 using Client.ViewModels;
 using Newtonsoft.Json;
@@ -25,7 +27,6 @@ namespace Client.Repository.Data
         public async Task<ResponseViewModel<EmployeeDTO>> GetEmployeeById(Guid Id)
         {
             ResponseViewModel<EmployeeDTO> employeeResponse = null;
-
             using (var response = await httpClient.GetAsync(request + Id))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();

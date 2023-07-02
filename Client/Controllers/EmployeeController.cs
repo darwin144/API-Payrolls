@@ -1,6 +1,7 @@
 ﻿using Client.Models;
 using Client.Repository.Interface;
 using Client.ViewModels;
+using Client.ViewModels.Overtime;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,8 +15,8 @@ using System.Threading.Tasks;
 
 namespace Client.Controllers
 {
-    /*    [Authorize(Roles = "Employee")]
-    */
+    [Authorize(Roles = "Employee")]
+
     [AllowAnonymous]
     public class EmployeeController : Controller
     {
@@ -30,7 +31,13 @@ namespace Client.Controllers
 
 		public IActionResult Payslip()
         {
-            return View();
+			var token = HttpContext.Session.GetString("JWToken");
+			var claim = ExtractClaims(token);
+			var guidEmployee = claim.Where(claim => claim.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/primarysid").Select(s => s.Value).Single();
+
+			ViewData["guidEmployee"] = guidEmployee;
+			ViewData["token"] = token;
+			return View();
         }
 
         public IActionResult Request()
@@ -40,7 +47,7 @@ namespace Client.Controllers
 			var guidEmployee = claim.Where(claim => claim.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/primarysid").Select(s => s.Value).Single();
 			
             ViewData["guidEmployee"] = guidEmployee;
-
+            ViewData["token"] = token;
 			return View();
         }
        
@@ -100,10 +107,10 @@ namespace Client.Controllers
                     if (result.Code == 200)
                     {
                         TempData["successMessage"] = "Data Berhasil Disubmit";
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Request", "Employee");
                     }
-
-                    return RedirectToAction("Error", "Home");
+                    
+                    return RedirectToAction("Request", "Employee");
                
             }
             catch { 
@@ -112,24 +119,28 @@ namespace Client.Controllers
 
         }
 
-        [HttpGet("{Guid}")]
+        [HttpGet]
         public async Task<IActionResult> GetAllOvertimeById() {
 
 			var token = HttpContext.Session.GetString("JWToken");
 			var claim = ExtractClaims(token);
 			var guidEmployee = claim.Where(claim => claim.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/primarysid").Select(s => s.Value).Single();
-			
-            var result = await _overtimeRepository.GetOvertimeByemployeeGuid(Guid.Parse(guidEmployee));
-			
-            if (result != null)
-			{
+			var fullname = claim.Where(claim => claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name").Select(s => s.Value).Single();
 
-				return View("GetAllOvertimeById", result);
+            var overtimes = await _overtimeRepository.GetOvertimeByemployeeGuid(Guid.Parse(guidEmployee));            
+         
+
+            if (overtimes != null)
+			{
+                foreach (var item in overtimes) {
+                    item.FullName = fullname;
+                }
+				return View("GetAllOvertimeById", overtimes);
 			}
 
 
 			return RedirectToAction("Error", "Home");
-		}
+		 }
 		public IEnumerable<Claim> ExtractClaims(string jwtToken)
 		{
 			JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();

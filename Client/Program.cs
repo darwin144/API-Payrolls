@@ -1,5 +1,3 @@
-/*using Client.Repository.Data;
-*/
 using Client.Repository;
 using Client.Repository.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -9,9 +7,7 @@ using System.Net;
 using Client.Repository.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
-//Add Scope
-/*builder.Services.AddScoped<HomeRepository>();
-*/
+
 // Add services to the container.
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllersWithViews();

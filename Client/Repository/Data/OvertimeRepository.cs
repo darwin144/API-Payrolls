@@ -1,7 +1,9 @@
 ﻿using Client.Models;
 using Client.Repository.Interface;
 using Client.ViewModels;
+using Client.ViewModels.Overtime;
 using Newtonsoft.Json;
+using System.Globalization;
 using System.Net.Http;
 using System.Text;
 
@@ -11,24 +13,37 @@ namespace Client.Repository.Data
 	{
 		public OvertimeRepository(string request="Overtime/") : base(request)
 		{
-
 		}
-
 		public Task<int> ApprovalOvertime()
 		{
 			throw new NotImplementedException();
 		}
 
-		public async Task<ResponseListVM<IEnumerable<Overtime>>> GetOvertimeByemployeeGuid(Guid id)
+		public async Task<IEnumerable<OvertimeDetailVM>> GetOvertimeByemployeeGuid(Guid id)
 		{
-			ResponseListVM<IEnumerable<Overtime>> overtimes = null;
+			ResponseListVM<Overtime> overtimes = null;
 
 			using (var response = await httpClient.GetAsync(_request + "ByEmployee/" + id))
 			{
 				string apiResponse = await response.Content.ReadAsStringAsync();
-				overtimes = JsonConvert.DeserializeObject<ResponseListVM<IEnumerable<Overtime>>>(apiResponse);
+				overtimes = JsonConvert.DeserializeObject<ResponseListVM<Overtime>>(apiResponse);
 			}
-			return overtimes;
+
+            var employeeOvertimes = new List<OvertimeDetailVM>();
+			
+            if (overtimes != null)
+            {
+				employeeOvertimes = overtimes.Data?.Select(e => new OvertimeDetailVM
+				{
+					StartOvertime = e.StartOvertime,
+					EndOvertime = e.EndOvertime,
+					SubmitDate = e.SubmitDate.ToString("dd MMMM yyyy", CultureInfo.CreateSpecificCulture("id-ID")),
+					Deskripsi = e.Deskripsi,
+					Status = e.Status
+					}).ToList();
+            }
+
+            return employeeOvertimes;
 		}		
 
 		public async Task<ResponseMessageVM> RequestOvertime(Overtime overtime)
