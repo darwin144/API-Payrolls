@@ -17,7 +17,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 
-builder.Services.AddScoped(typeof(IGeneralRepository<,>), typeof(GeneralRepository<,>));
+builder.Services.AddScoped(typeof(IRepository<,>), typeof(GeneralRepository<,>));
 builder.Services.AddScoped<HomeRepository>();
 builder.Services.AddScoped<IOvertimeRepository, OvertimeRepository>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
@@ -88,7 +88,7 @@ app.Use(async (context, next) =>
 
     await next();
 });
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

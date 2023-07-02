@@ -1,5 +1,6 @@
 ﻿using Client.Models;
 using Client.Repository.Interface;
+using Client.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -42,8 +43,40 @@ namespace Client.Controllers
 
 			return View();
         }
-        public IActionResult Profile()
+       
+       public async Task<IActionResult> Profile()
         {
+            var token = HttpContext.Session.GetString("JWToken");
+            var id = HttpContext.Session.GetString("id");
+
+            if (token != null && id != null)
+            {
+                ViewBag.Token = token;
+                ViewBag.Id = id;
+
+                var claims = ExtractClaims(token);
+                var idClaim = claims.FirstOrDefault(c => c.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/primarysid")?.Value;
+
+
+                if (Guid.TryParse(idClaim, out Guid userId))
+                {
+                    var employeeResponse = await _employeeRepository.GetEmployeeById(userId);
+
+                    if (employeeResponse != null && employeeResponse.Data != null)
+                    {
+                        var employee = employeeResponse.Data;
+                        ViewBag.FirstName = employee.FirstName;
+                        ViewBag.LastName = employee.LastName;
+                        ViewBag.Gender = employee.Gender;
+                        ViewBag.PhoneNumber = employee.PhoneNumber;
+                        ViewBag.Nik = employee.Nik;
+                        ViewBag.Email = employee.Email;
+                        ViewBag.HiringDate = employee.HiringDate.ToString("yyyy-MM-dd");
+                        ViewBag.BirthDate = employee.BirthDate.ToString("yyyy-MM-dd");
+                    }
+                }
+            }
+
             return View();
         }
 

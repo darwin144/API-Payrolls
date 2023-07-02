@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Client.Repository.Interface
 {
-	public interface IGeneralRepository<T, X>
+	public interface IRepository<T, X>
 		where T : class
 	{
 		Task<ResponseListVM<T>> Get();

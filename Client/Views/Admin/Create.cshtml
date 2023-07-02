@@ -3,23 +3,106 @@
 @{
     ViewData["Title"] = "Create";
 }
+<head>
+    <style>
+        body,
+        html {
+            height: 100%;
+        }
+
+        body {
+            background-color: #cfcfcf;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #auth {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        .auth-card {
+            min-width: 650px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #ffff;
+        }
+
+        .auth-logo {
+            text-align: center;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+
+        .auth-title {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .auth-subtitle {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-control-icon {
+            position: absolute;
+            top: 50%;
+            margin-left: 5px;
+            transform: translateY(-55%);
+            color: #ccc;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .btn-block {
+            width: 100%;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
 
 <h1>Create</h1>
 
 <h4>Employee</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
+    <div id="auth " class="">
+    <div class="auth-card">
+        <div class="auth-logo">
+            <a href="index.html">
+                <img src="https://www.metrodataacademy.id/static/media/logo_metrodata_academy.f40277dc.svg"
+                     alt="Logo"
+                     width="150px" />
+            </a>
+        </div>
+        <h1 class="auth-title">Create</h1>
+        <p class="auth-subtitle mb-5">
+            Input your data to register to our website.
+        </p>
         <form action="Create" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group" hidden>
                 <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
+                <input asp-for="Id" class="form-control form-control-md"
+                       placeholder="Id" />
                 <span asp-validation-for="Id" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="NIK" class="control-label"></label>
-                <input asp-for="NIK" class="form-control" />
+                <input asp-for="NIK" class="form-control form-control-md"
+                       placeholder="NIK" />
                 <span asp-validation-for="NIK" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -75,14 +158,16 @@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
+                <div>
+                    <a asp-action="ListEmployee">Back to List</a>
+                </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="ListEmployee">Back to List</a>
-</div>
 
+
+</body>
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

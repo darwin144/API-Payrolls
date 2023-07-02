@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Client.Controllers
 {
-    /*    [Authorize(Roles = "Manager")]
-    */
-    [AllowAnonymous]
-    public class ManagerController : Controller
+/*    [Authorize(Roles = "Manager")]
+*/
+/*    [AllowAnonymous]
+*/    public class ManagerController : Controller
     {
         public IActionResult Index()
         {

@@ -18,7 +18,7 @@ namespace Client.Repository.Data
         private readonly string request;
         private readonly IHttpContextAccessor _contextAccessor;
 
-        public HomeRepository(string request = "Account/") : base(request)
+        public HomeRepository(string request = "") : base(request)
         {
 /*            _contextAccessor = new HttpContextAccessor();
 */            httpClient = new HttpClient
@@ -33,13 +33,16 @@ namespace Client.Repository.Data
         {
              ResponseViewModel<string> entityVM = null;
             StringContent content = new StringContent(JsonConvert.SerializeObject(login), Encoding.UTF8, "application/json");
-            using (var response = httpClient.PostAsync(request + "Login", content).Result)
+            using (var response = httpClient.PostAsync(request + "Account/Login", content).Result)
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 entityVM = JsonConvert.DeserializeObject < ResponseViewModel<string>> (apiResponse);
             }
             return entityVM;
         }
+
+
+        
 
         /*public async Task<JWTokenVM> Auth(LoginVM login)
         {

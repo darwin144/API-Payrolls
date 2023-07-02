@@ -92,9 +92,10 @@ namespace Client.Controllers
             return claims;
         }
 
-        
 
-   
+
+
+
 
         public IActionResult Register()
         {

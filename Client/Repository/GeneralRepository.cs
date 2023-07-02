@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Client.Repository
 {
-	public class GeneralRepository<TEntity, TId> : IGeneralRepository<TEntity, TId>
+	public class GeneralRepository<TEntity, TId> : IRepository<TEntity, TId>
         where TEntity : class
     {
         public readonly string _request;

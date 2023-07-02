@@ -1,6 +1,4 @@
 ﻿using Client.Models;
-using Client.Repositories.Interface;
-
 using Client.ViewModels;
 
 namespace Client.Repository.Interface
@@ -8,11 +6,9 @@ namespace Client.Repository.Interface
     public interface IEmployeeRepository : IRepository<Employee, Guid>
     {
         /*public Task<ResponseListVM<ListEmployeeVM>> GetAllEmployees();*/
+        Task<ResponseViewModel<EmployeeDTO>> GetEmployeeById(Guid Id);
+
     }
 }
 
-	public interface IEmployeeRepository : IGeneralRepository<Employee, Guid>
-	{
 
-	}
-}
