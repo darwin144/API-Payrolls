@@ -60,6 +60,7 @@ namespace API_Payroll.Repositories
         {
             var today = DateTime.Today;
             var targetDate = new DateTime(today.Year, today.Month, 25);
+            
 
             var modelsVM = _context.Payrolls
                             .Join(_context.Employees, p => p.Employee_id, e => e.Id, (p, e) => new { p, e })

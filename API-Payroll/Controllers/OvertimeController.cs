@@ -123,7 +123,110 @@ namespace API_Payroll.Controllers
                 });
             }
             catch {
-                return null;
+                return NotFound(new ResponseVM<OvertimeVM>
+                {
+                    Code = StatusCodes.Status404NotFound,
+                    Status = HttpStatusCode.NotFound.ToString(),
+                    Message = "Seluruh Data Tidak Berhasil Ditampilkan"
+                });
+            }
+        }
+
+        [HttpGet("ListRemainingOvertimeEmployee/")]
+        public IActionResult ListRemainingOvertimeEmployee()
+        {
+            try
+            {
+                var listRemaining = _overtimeRepository.ListRemainingOvertime();
+                if (listRemaining == null) {
+                    return NotFound(new ResponseVM<OvertimeRemainingVM>
+                    {
+                        Code = StatusCodes.Status404NotFound,
+                        Status = HttpStatusCode.NotFound.ToString(),
+                        Message = "Seluruh Data Tidak Berhasil Ditampilkan"
+                    });
+                }
+                return Ok(new ResponseVM<IEnumerable<OvertimeRemainingVM>>
+                {
+                    Code = StatusCodes.Status200OK,
+                    Status = HttpStatusCode.OK.ToString(),
+                    Message = "Seluruh Data Berhasil Ditampilkan",
+                    Data = listRemaining
+                });
+            }
+            catch {
+                return NotFound(new ResponseVM<OvertimeRemainingVM>
+                {
+                    Code = StatusCodes.Status404NotFound,
+                    Status = HttpStatusCode.NotFound.ToString(),
+                    Message = "Seluruh Data Tidak Berhasil Ditampilkan"
+                });
+            }
+        }
+        [HttpGet("RemainingOvertimeByEmployeeGuid/{guid}")]
+        public IActionResult RemainingOvertimeByEmployeeGuid(Guid guid)
+        {
+            try
+            {
+                var Remaining = _overtimeRepository.RemainingOvertimeByEmployeeGuid(guid);
+                if (Remaining == null)
+                {
+                    return NotFound(new ResponseVM<OvertimeRemainingVM>
+                    {
+                        Code = StatusCodes.Status404NotFound,
+                        Status = HttpStatusCode.NotFound.ToString(),
+                        Message = "Seluruh Data Tidak Berhasil Ditampilkan"
+                    });
+                }
+                return Ok(new ResponseVM<OvertimeRemainingVM>
+                {
+                    Code = StatusCodes.Status200OK,
+                    Status = HttpStatusCode.OK.ToString(),
+                    Message = "Seluruh Data Berhasil Ditampilkan",
+                    Data = Remaining
+                });
+            }
+            catch
+            {
+                return NotFound(new ResponseVM<OvertimeRemainingVM>
+                {
+                    Code = StatusCodes.Status404NotFound,
+                    Status = HttpStatusCode.NotFound.ToString(),
+                    Message = "Seluruh Data Tidak Berhasil Ditampilkan"
+                });
+            }
+        }
+        [HttpGet("ChartManagerByGuid/{guid}")]
+        public IActionResult ChartManagerByEmployeeGuid(Guid guid)
+        {
+            try
+            {
+                var result = _overtimeRepository.DataChartByGuid(guid);
+                if (result == null)
+                {
+                    return NotFound(new ResponseVM<ChartManagerVM>
+                    {
+                        Code = StatusCodes.Status404NotFound,
+                        Status = HttpStatusCode.NotFound.ToString(),
+                        Message = "Seluruh Data Tidak Berhasil Ditampilkan"
+                    });
+                }
+                return Ok(new ResponseVM<ChartManagerVM>
+                {
+                    Code = StatusCodes.Status200OK,
+                    Status = HttpStatusCode.OK.ToString(),
+                    Message = "Seluruh Data Berhasil Ditampilkan",
+                    Data = result
+                });
+            }
+            catch
+            {
+                return NotFound(new ResponseVM<ChartManagerVM>
+                {
+                    Code = StatusCodes.Status404NotFound,
+                    Status = HttpStatusCode.NotFound.ToString(),
+                    Message = "Seluruh Data Tidak Berhasil Ditampilkan"
+                });
             }
         }
     }

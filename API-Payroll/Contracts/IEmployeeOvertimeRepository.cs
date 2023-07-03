@@ -10,5 +10,9 @@ namespace API_Payroll.Contracts
         int ApprovalOvertime(Overtime overtime,Guid id);
         List<OvertimeVM> ListOvertimeByIdManager(Guid idManager);
         IEnumerable<OvertimeVM> ListOvertimeByIdEmployee(Guid idEmployee);
+
+        IEnumerable<OvertimeRemainingVM> ListRemainingOvertime();
+        OvertimeRemainingVM RemainingOvertimeByEmployeeGuid(Guid id);
+        ChartManagerVM DataChartByGuid(Guid id);
     }
 }

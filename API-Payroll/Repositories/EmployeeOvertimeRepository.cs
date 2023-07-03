@@ -1,8 +1,11 @@
 ﻿using API_Payroll.Context;
 using API_Payroll.Contracts;
 using API_Payroll.Models;
+using API_Payroll.Utilities.Enum;
 using API_Payroll.ViewModels.Overtimes;
+using API_Payroll.ViewModels.Payrolls;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace API_Payroll.Repositories
 {
@@ -154,6 +157,95 @@ namespace API_Payroll.Repositories
                 return null;
             }
         }
-    
+
+        public IEnumerable<OvertimeRemainingVM> ListRemainingOvertime()
+        {
+            var today = DateTime.Today;
+            var targetDate = new DateTime(today.Year, today.Month, 25);
+            var endDate = targetDate.AddDays(-30);
+
+            var overtimeRemaining = _context.Overtimes.Where(a => a.Status == Status.Approved && a.SubmitDate >= endDate && a.SubmitDate <= targetDate)
+                .Join(_context.Employees,
+                    ov => ov.Employee_id,
+                    emp => emp.Id,
+                    (ov, emp) => new
+                    {
+                        guid = emp.Id,
+                        total = (ov.EndOvertime - ov.StartOvertime).TotalHours
+                    }).ToList().GroupBy(a => a.guid).Select(b => new OvertimeRemainingVM
+                    {
+                        Employee_id = b.Key,
+                        RemainingOvertime = Convert.ToInt32(40 - b.Sum(c => c.total))
+                    }).ToList();
+
+
+           var listRemain=  _context.Overtimes
+            .Join(
+                _context.Employees,
+                ov => ov.Employee_id,
+                emp => emp.Id,
+                (ov, emp) => new { ov, emp }
+            )
+            .Where(a => a.ov.Status == Status.Approved && a.ov.SubmitDate >= endDate && a.ov.SubmitDate <= targetDate)
+            .ToList()
+            .GroupBy(a => a.emp.Id)
+            .Select(b => new OvertimeRemainingVM
+            {
+                Employee_id = b.Key,
+                RemainingOvertime = Convert.ToInt32(40 - b.Sum(c => (c.ov.EndOvertime - c.ov.StartOvertime).TotalHours))
+            })
+            .ToList();
+
+
+
+
+            return overtimeRemaining;
+        }
+
+        public OvertimeRemainingVM RemainingOvertimeByEmployeeGuid(Guid id) {
+            var remaining = ListRemainingOvertime();
+            var employeeRemaining = remaining.FirstOrDefault(a => a.Employee_id == id);
+            if (employeeRemaining == null) {
+                var employee = _context.Employees.FirstOrDefault(a => a.Id == id);
+                var employeeRemain = new OvertimeRemainingVM();
+                employeeRemain.Employee_id = employee.Id;
+                employeeRemain.Fullname = employee.FirstName + " " + employee.LastName;
+                employeeRemain.RemainingOvertime = 40;
+                
+                return employeeRemain;
+            }
+            return employeeRemaining;
+        }
+
+        public ChartManagerVM DataChartByGuid(Guid id) {
+            var chartManager = new ChartManagerVM();
+            var totalMale = _context.Employees.Count(a => a.ReportTo == id && a.Gender == "L");
+            var totalFemale = _context.Employees.Count(b => b.ReportTo == id && b.Gender == "P");            
+            var Approved = _context.Employees
+               .Where(a => a.ReportTo == id)
+                .Join(
+                    _context.Overtimes,
+                    emp => emp.Id,
+                    ov => ov.Employee_id,
+                    (emp, ov) => ov
+                )
+                .Count(ov => ov.Status == Status.Approved);
+            var rejected = _context.Employees
+               .Where(a => a.ReportTo == id)
+                .Join(
+                    _context.Overtimes,
+                    emp => emp.Id,
+                    ov => ov.Employee_id,
+                    (emp, ov) => ov
+                )
+                .Count(ov => ov.Status == Status.Rejected);
+
+            chartManager.Approved = Approved;
+            chartManager.Rejected = rejected;
+            chartManager.TotalMale = totalMale;
+            chartManager.TotalFemale = totalFemale;
+
+            return chartManager;
+        }
     }
 }
