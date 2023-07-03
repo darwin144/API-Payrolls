@@ -17,43 +17,51 @@ namespace API_Payroll.Repositories
         public Overtime CreateRequest(Overtime overtime)
         {
             try
-            {                
-                var employee = _context.Employees.Where(e => e.Id == overtime.Employee_id).Join(_context.EmployeeLevels, es => es.EmployeeLevel_id, el => el.Id, (es, el) => new { Employee = es, EmployeeLevel = el }).FirstOrDefault();
+            {
+                var remainingOvertime = RemainingOvertimeByEmployeeGuid(overtime.Employee_id);
+                var existingOvertime = _context.Overtimes.FirstOrDefault(a => a.StartOvertime.Day == overtime.StartOvertime.Day);
+                if (remainingOvertime.RemainingOvertime > 0  && existingOvertime == null)
+                {
+                    var employee = _context.Employees.Where(e => e.Id == overtime.Employee_id)
+                                .Join(_context.EmployeeLevels, es => es.EmployeeLevel_id, el => el.Id, (es, el) => new { Employee = es, EmployeeLevel = el }).FirstOrDefault();
+                    var salaryPerHours = employee.EmployeeLevel.Salary * 1 / 173;
+                    var totalHours = Convert.ToInt32((overtime.EndOvertime - overtime.StartOvertime).TotalHours);
+                    var today = overtime.SubmitDate.DayOfWeek;
+                    if (today == DayOfWeek.Saturday || today == DayOfWeek.Sunday)
+                    {
+                        if (totalHours > 11)
+                        {
+                            totalHours = 11;
+                        }
+                        overtime.Paid = TotalPaidWeekend(totalHours, salaryPerHours);
 
-                var salaryPerHours = employee.EmployeeLevel.Salary * 1 / 173;
-                var totalHours = Convert.ToInt32((overtime.EndOvertime - overtime.StartOvertime).TotalHours);
-                
-                var today = overtime.SubmitDate.DayOfWeek;
-
-                if (today == DayOfWeek.Saturday || today == DayOfWeek.Sunday) {
-                    if (totalHours > 11)
-                    { 
-                        totalHours = 11; 
                     }
-                    overtime.Paid = TotalPaidWeekend(totalHours, salaryPerHours);
-                                            
+                    else
+                    {
+                        if (totalHours > 4)
+                        {
+                            totalHours = 4;
+                        }
+                        for (int i = 0; i < totalHours; i++)
+                        {
+                            if (i < 1)
+                            {
+                                overtime.Paid += Convert.ToInt32(1.5 * salaryPerHours);
+                            }
+                            else
+                            {
+                                overtime.Paid += 2 * salaryPerHours;
+                            }
+                        }
+                    }
+
+                    _context.Set<Overtime>().Add(overtime);
+                    _context.SaveChanges();
+                    return overtime;
                 }
                 else {
-                    if (totalHours > 4)
-                    { 
-                        totalHours = 4; 
-                    }
-                    for (int i = 0; i < totalHours; i++)
-                    {
-                        if (i < 1)
-                        {
-                            overtime.Paid += Convert.ToInt32(1.5 * salaryPerHours);
-                        }
-                        else
-                        {
-                            overtime.Paid += 2 * salaryPerHours;
-                        }
-                    }
+                    return null;
                 }
-                       
-                _context.Set<Overtime>().Add(overtime);
-                _context.SaveChanges();
-                return overtime;
             }
             catch {
                 return null;
