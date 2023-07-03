@@ -52,7 +52,6 @@ function getStatusBadge(status) {
 }
 
 
-
 //payslip table
 $.ajax({
     url: `https://localhost:7165/API-Payroll/Payroll/GetByEmployeeId/${guid}`,

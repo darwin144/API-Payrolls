@@ -1,4 +1,4 @@
-﻿let nik = $("#sesNIK").text();
+﻿/*let nik = $("#sesNIK").text();
 
 $.ajax({
     url: `https://localhost:44325/api/accounts/master/${nik}`,
@@ -154,4 +154,4 @@ function Approval(ovr) {
         })
         $('#tblOvertime').DataTable().ajax.reload();
     })
-}
+}*/

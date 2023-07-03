@@ -488,8 +488,6 @@ namespace Client.Controllers
             return RedirectToAction(nameof(ListAccountRole));
         }
 
-
-
         [HttpGet]
         public async Task<IActionResult> EditAccountRole(Guid Id)
         {
