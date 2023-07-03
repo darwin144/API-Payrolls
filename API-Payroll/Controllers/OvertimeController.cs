@@ -229,5 +229,41 @@ namespace API_Payroll.Controllers
                 });
             }
         }
+
+        [HttpGet("ListRemainingByManagerGuid/{guid}")]
+        public IActionResult ListRemainingByManagerGuid(Guid guid) {
+
+            try
+            {
+                var result = _overtimeRepository.ListRemainingOvertimeByGuid(guid);
+                if (result == null)
+                {
+                    return NotFound(new ResponseVM<OvertimeRemainingVM>
+                    {
+                        Code = StatusCodes.Status404NotFound,
+                        Status = HttpStatusCode.NotFound.ToString(),
+                        Message = "Seluruh Data Tidak Berhasil Ditampilkan"
+                    });
+                }
+                return Ok(new ResponseVM<IEnumerable<OvertimeRemainingVM>>
+                {
+                    Code = StatusCodes.Status200OK,
+                    Status = HttpStatusCode.OK.ToString(),
+                    Message = "Seluruh Data Berhasil Ditampilkan",
+                    Data = result
+                });
+            }
+            catch
+            {
+                return NotFound(new ResponseVM<OvertimeRemainingVM>
+                {
+                    Code = StatusCodes.Status404NotFound,
+                    Status = HttpStatusCode.NotFound.ToString(),
+                    Message = "Seluruh Data Tidak Berhasil Ditampilkan"
+                });
+            }
+
+        }
     }
 }
+

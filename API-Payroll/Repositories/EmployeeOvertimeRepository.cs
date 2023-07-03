@@ -163,7 +163,6 @@ namespace API_Payroll.Repositories
             var today = DateTime.Today;
             var targetDate = new DateTime(today.Year, today.Month, 25);
             var endDate = targetDate.AddDays(-30);
-
             var overtimeRemaining = _context.Overtimes.Where(a => a.Status == Status.Approved && a.SubmitDate >= endDate && a.SubmitDate <= targetDate)
                 .Join(_context.Employees,
                     ov => ov.Employee_id,
@@ -177,31 +176,33 @@ namespace API_Payroll.Repositories
                         Employee_id = b.Key,
                         RemainingOvertime = Convert.ToInt32(40 - b.Sum(c => c.total))
                     }).ToList();
-
-
-           var listRemain=  _context.Overtimes
-            .Join(
-                _context.Employees,
-                ov => ov.Employee_id,
-                emp => emp.Id,
-                (ov, emp) => new { ov, emp }
-            )
-            .Where(a => a.ov.Status == Status.Approved && a.ov.SubmitDate >= endDate && a.ov.SubmitDate <= targetDate)
-            .ToList()
-            .GroupBy(a => a.emp.Id)
-            .Select(b => new OvertimeRemainingVM
-            {
-                Employee_id = b.Key,
-                RemainingOvertime = Convert.ToInt32(40 - b.Sum(c => (c.ov.EndOvertime - c.ov.StartOvertime).TotalHours))
-            })
-            .ToList();
-
-
-
-
             return overtimeRemaining;
         }
 
+        public IEnumerable<OvertimeRemainingVM> ListRemainingOvertimeByGuid(Guid id)
+        {
+            var today = DateTime.Today;
+            var targetDate = new DateTime(today.Year, today.Month, 25);
+            var endDate = targetDate.AddDays(-30);
+
+            var overtimeRemaining = _context.Overtimes.Where(a => a.Status == Status.Approved && a.SubmitDate >= endDate && a.SubmitDate <= targetDate)
+                .Join(_context.Employees.Where(a => a.ReportTo == id),
+                    ov => ov.Employee_id,
+                    emp => emp.Id,
+                    (ov, emp) => new
+                    {
+                        guid = emp.Id,
+                        fullname = emp.FirstName +" "+ emp.LastName,
+                        total = (ov.EndOvertime - ov.StartOvertime).TotalHours
+                    }).ToList().GroupBy(a => a.guid).Select(b => new OvertimeRemainingVM
+                    {
+                        Employee_id = b.Key,
+                        Fullname = b.First().fullname,
+                        RemainingOvertime = Convert.ToInt32(40 - b.Sum(c => c.total))
+                    }).ToList();
+
+            return overtimeRemaining;
+        }
         public OvertimeRemainingVM RemainingOvertimeByEmployeeGuid(Guid id) {
             var remaining = ListRemainingOvertime();
             var employeeRemaining = remaining.FirstOrDefault(a => a.Employee_id == id);

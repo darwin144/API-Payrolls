@@ -12,6 +12,7 @@ namespace API_Payroll.Contracts
         IEnumerable<OvertimeVM> ListOvertimeByIdEmployee(Guid idEmployee);
 
         IEnumerable<OvertimeRemainingVM> ListRemainingOvertime();
+        IEnumerable<OvertimeRemainingVM> ListRemainingOvertimeByGuid(Guid id);
         OvertimeRemainingVM RemainingOvertimeByEmployeeGuid(Guid id);
         ChartManagerVM DataChartByGuid(Guid id);
     }
