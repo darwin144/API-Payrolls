@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Client.ViewModels
+﻿namespace Client.ViewModels
 {
     public class ListEmployeeVM
     {
@@ -12,8 +10,8 @@ namespace Client.ViewModels
         public DateTime HiringDate { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
-        public Guid? ReportTo { get; set; }
-        public Guid EmployeeLevel_id { get; set; }
-        public Guid DepartmentName_id { get; set; }
+        public string ReportTo { get; set; }
+        public string Title { get; set; }
+        public string DepartmentName { get; set; }
     }
 }

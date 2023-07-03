@@ -28,6 +28,12 @@ namespace Client.Controllers
             _repository = repository;
         }
 
+        public IActionResult Dashboard()
+        {
+
+            return View();
+        }
+
         public IActionResult Index()
         {
 
@@ -76,7 +82,7 @@ namespace Client.Controllers
             }
             else if (role.Contains("Admin"))
             {
-                return RedirectToAction("listemployee", "Admin");
+                return RedirectToAction("Index", "Home");
             }
             else
             {
@@ -92,8 +98,12 @@ namespace Client.Controllers
             return claims;
         }
 
-
-
+        [HttpGet("/Logout")]
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Dashboard", "Home");
+        }
 
 
 
