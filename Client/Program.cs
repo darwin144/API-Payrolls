@@ -14,9 +14,12 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 
 builder.Services.AddScoped(typeof(IRepository<,>), typeof(GeneralRepository<,>));
-builder.Services.AddScoped<HomeRepository>();
 builder.Services.AddScoped<IOvertimeRepository, OvertimeRepository>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+builder.Services.AddScoped<IPayrollRepository, PayrollRepository>();
+builder.Services.AddScoped<IAccountRoleRepository, AccountRoleRepository>();
+builder.Services.AddScoped<HomeRepository>();
 
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -84,11 +87,13 @@ app.Use(async (context, next) =>
 
     await next();
 });
+
 app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Dashboard}/{id?}");
 
 app.Run();

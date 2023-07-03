@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Http
+﻿﻿@using Microsoft.AspNetCore.Http
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 <!DOCTYPE html>
@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="~/lib/assets/css/main/app.css" />
 
     <link rel="stylesheet" href="~/lib/assets/css/main/app-dark.css" />
-    
+
     <link rel="shortcut icon" href="~/lib/assets/images/logo/favicon.svg" type="image/x-icon" />
     <link rel="shortcut icon" href="~/lib/assets/images/logo/favicon.png" type="image/png" />
 
@@ -23,7 +23,7 @@
     <!-- data-tabel-->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css">
-    <!-- custom css -->    
+    <!-- custom css -->
     <link href="~/css/site.css" rel="stylesheet" />
 
 
@@ -107,10 +107,16 @@
                             </a>
                             <ul class="submenu">
                                 <li class="submenu-item">
-                                    <a href="/Admin/ListEmployee">Data Employee</a>
+                                    <a href="/Admin/GetAllEmployee">Data Employee</a>
                                 </li>
                                 <li class="submenu-item">
-                                    <a href="/Admin/Payroll">Data Payslip</a>
+                                    <a href="/Admin/GetAllPayroll">Data Payroll</a>
+                                </li>
+                                <li class="submenu-item">
+                                    <a href="/Admin/ListAccountRole">Data Account Role</a>
+                                </li>
+                                <li class="submenu-item">
+                                    <a href="/Admin/ListDepartment">Data Department</a>
                                 </li>
                             </ul>
                         </li>
@@ -175,7 +181,7 @@
     <!-- Need: Apexcharts -->
     <script src="~/lib/assets/extensions/apexcharts/apexcharts.min.js"></script>
     <script src="~/lib/assets/js/pages/dashboard.js"></script>
-        
+
     <!-- data-tabel -->
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <!-- DataTables Buttons JS -->

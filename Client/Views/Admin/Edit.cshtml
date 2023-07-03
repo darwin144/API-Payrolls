@@ -3,44 +3,130 @@
 @{
     ViewData["Title"] = "Edit";
 }
-<div id="main">
-    <header class="mb-3 ">
-        <a href="#" class="burger-btn d-block d-xl-none">
-            <i class="bi bi-justify fs-3"></i>
-        </a>
-    </header>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="~/lib/assets/css/main/app.css" />
+    <link rel="stylesheet" href="~/lib/assets/css/pages/auth.css" />
+    <link rel="shortcut icon"
+          href="~/lib/assets/images/logo/favicon.svg"
+          type="image/x-icon" />
+    <link rel="shortcut icon"
+          href="~/lib/assets/images/logo/favicon.png"
+          type="image/png" />
+    <link rel="stylesheet" href="~/lib/assets/extensions/choices.js/public/assets/styles/choices.css">
+    <!-- Include CSS file for Bootstrap Datepicker -->
+    <!-- Include CSS file for Bootstrap Datepicker -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
 
-    <div class="page-heading">
-        <div class="page-title">
-            <div class="row">
-                <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3>List Employee</h3>
-                    <p class="text-subtitle text-muted">
-                        Manager Employee Data
-                    </p>
-                </div>
-                <div class="col-12 col-md-6 order-md-2 order-first">
-                    <nav aria-label="breadcrumb"
-                         class="breadcrumb-header float-start float-lg-end">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item">
-                                <a href="index.html">Dashboard</a>
-                            </li>
-                            <li class="breadcrumb-item active" aria-current="page">
-                                Employee
-                            </li>
-                        </ol>
-                    </nav>
-                </div>
+    <!-- Include necessary libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+    <!-- Additional scripts -->
+    <script>
+        $(document).ready(function () {
+            $('#birthdate-input').datepicker({
+                format: 'yyyy-mm-dd',
+                autoclose: true,
+                todayHighlight: true
+            });
+
+            $('#hiringdate-input').datepicker({
+                format: 'yyyy-mm-dd',
+                autoclose: true,
+                todayHighlight: true
+            });
+        });
+    </script>
+
+    <style>
+        body,
+        html {
+            height: 100%;
+        }
+
+        body {
+            background-color: #f2f7ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #auth {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        .auth-card {
+            min-width: 500px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #ffff;
+        }
+
+        .auth-logo {
+            text-align: center;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+
+        .auth-title {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .auth-subtitle {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-control-icon {
+            position: absolute;
+            top: 50%;
+            margin-left: 5px;
+            transform: translateY(-55%);
+            color: #ccc;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-control {
+            padding-left: 40px;
+        }
+
+        .btn-block {
+            width: 100%;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="auth">
+        <div class="auth-card">
+            <div class="auth-logo">
+                <a href="index.html">
+                    <img src="https://www.metrodataacademy.id/static/media/logo_metrodata_academy.f40277dc.svg"
+                         alt="Logo"
+                         width="150px" />
+                </a>
             </div>
-        </div>
-<h1>Edit</h1>
-
-<h4>Employee</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-          <form asp-action="Edit" method="post">
+            <h1 class="auth-title">Employee</h1>
+            <p class="auth-subtitle mb-5">
+                Edit Employee.
+            </p>
+        <form asp-action="Edit" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Id" class="control-label"></label>
@@ -103,36 +189,21 @@
                 <span asp-validation-for="Department_id" class="text-danger"></span>
             </div>
 
-                    <div class="form-group">
-                        <input type="submit" value="Save" class="btn btn-primary" />
-                    </div>
+                <button class="btn btn-primary btn-block btn-md shadow-lg mt-4">
+                    Save
+                </button>
+                <div style="text-align: center;">
+                    <a asp-action="GetAllEmployee">Back to List</a>
+                </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="ListEmployee">Back to List</a>
-</div>
 
-<footer>
-    <div class="footer clearfix mb-0 text-muted mt-auto px-4">
-        <div class="float-start text-sm">
-            <p>2023 &copy;</p>
-        </div>
-        <div class="float-end text-sm">
-            <p>
-                Project MCC by
-                <span class="text-danger">
-                    <i class="bi bi-heart-fill icon-mid"></i>
-                </span>
-                <a href="">Kelompok 4</a>
-            </p>
-        </div>
-    </div>
-</footer>
 
-        @section Scripts {
-            @{
-                await Html.RenderPartialAsync("_ValidationScriptsPartial");
-            }
-        }
+</body>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

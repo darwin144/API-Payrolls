@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 
 namespace Client.Controllers
 {
-/*    [Authorize(Roles = "Manager")]
-*/
-/*    [AllowAnonymous]
-*/    public class ManagerController : Controller
+  /*  [Authorize(Roles = "Manager")]*/
+
+    /*    [AllowAnonymous]
+    */
+    public class ManagerController : Controller
     {
         private readonly IEmployeeRepository _repository;
 

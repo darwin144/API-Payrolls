@@ -1,0 +1,146 @@
+﻿@model IEnumerable<Client.ViewModels.Payroll.PayrollPrintVM>
+
+@{
+    ViewData["Title"] = "GetAllPayroll";
+    Layout = "_SidebarLayout";
+}
+
+<div id="main">
+    <header class="mb-3 ">
+        <a href="#" class="burger-btn d-block d-xl-none">
+            <i class="bi bi-justify fs-3"></i>
+        </a>
+    </header>
+
+    <div class="page-heading">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-12 col-md-6 order-md-1 order-last">
+                    <h3>List Payroll</h3>
+                    <p class="text-subtitle text-muted">
+                        Manager Payroll Data
+                    </p>
+                </div>
+                <div class="col-12 col-md-6 order-md-2 order-first">
+                    <nav aria-label="breadcrumb"
+                         class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="index.html">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Payroll
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <section class="section">
+            <div class="card">
+                <div class="">
+                    </br><a href="@Url.Action("CreatePayroll","Admin")" class="btn btn-primary float-end me-4" data-toggle="modal" data-target="#modalTambah">
+                        Add Payroll
+                    </a>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped" id="table1">
+                        <thead>
+                            <tr>
+                                <th style="display: none">
+                                    @Html.DisplayNameFor(model => model.Id)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.PayDate)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Fullname)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Department)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Title)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Allowence)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Overtime)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.PayrollCuts)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.TotalSalary)
+                                </th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td style="display: none">
+                                        @Html.DisplayFor(modelItem => item.Id)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PayDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Fullname)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Department)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Title)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Allowence)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Overtime)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PayrollCuts)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TotalSalary)
+                                    </td>
+                                    <td>
+                                        @*<a href="@Url.Action("EditPayroll", new { id = item.Id })" class="btn btn-success">Edit</a>*@
+                                        <a href="@Url.Action("DeletePayroll", new { id = item.Id })" class="btn btn-danger">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="footer clearfix mb-0 text-muted mt-auto px-4">
+            <div class="float-start text-sm">
+                <p>2023 &copy;</p>
+            </div>
+            <div class="float-end text-sm">
+                <p>
+                    Project MCC by
+                    <span class="text-danger">
+                        <i class="bi bi-heart-fill icon-mid"></i>
+                    </span>
+                    <a href="">Kelompok 4</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+</div>
+
+
+
+
+
+

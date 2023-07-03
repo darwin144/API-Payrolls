@@ -1,0 +1,72 @@
+﻿@model Client.Models.Payroll
+
+@{
+    ViewData["Title"] = "EditPayroll";
+}
+</br>
+
+<h4>Payroll</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form action="EditPayroll" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group" hidden>
+                <label asp-for="Id" class="control-label"></label>
+                <input asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PayDate" class="control-label"></label>
+                <input asp-for="PayDate" class="form-control" />
+                <span asp-validation-for="PayDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PayrollCuts" class="control-label"></label>
+                <input asp-for="PayrollCuts" class="form-control" />
+                <span asp-validation-for="PayrollCuts" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalSalary" class="control-label"></label>
+                <input asp-for="TotalSalary" class="form-control" />
+                <span asp-validation-for="TotalSalary" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Employee_id" class="control-label"></label>
+                <input asp-for="Employee_id" class="form-control" />
+                <span asp-validation-for="Employee_id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div style="text-align: center;">
+    <a asp-action="Payroll">Back to List</a>
+</div>
+
+<footer>
+    </br>
+    <div class="footer clearfix mb-0 text-muted mt-auto px-4">
+        <div class="float-start text-sm">
+            <p>2023 &copy;</p>
+        </div>
+        <div class="float-end text-sm">
+            <p>
+                Project MCC by
+                <span class="text-danger">
+                    <i class="bi bi-heart-fill icon-mid"></i>
+                </span>
+                <a href="">Kelompok 4</a>
+            </p>
+        </div>
+    </div>
+</footer>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

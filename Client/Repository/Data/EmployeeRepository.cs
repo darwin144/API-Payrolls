@@ -35,7 +35,16 @@ namespace Client.Repository.Data
 
             return employeeResponse;
         }
-
+public async Task<ResponseListVM<ListEmployeeVM>> GetAllEmployee()
+        {
+            ResponseListVM<ListEmployeeVM> entityVM = null;
+            using (var response = httpClient.GetAsync(request + "GetAllMasterEmployee").Result)
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                entityVM = JsonConvert.DeserializeObject<ResponseListVM<ListEmployeeVM>>(apiResponse);
+            }
+            return entityVM;
+        }
 
         
     }

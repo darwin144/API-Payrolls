@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Http
+﻿﻿@using Microsoft.AspNetCore.Http
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 <!DOCTYPE html>
@@ -103,10 +103,16 @@
                             </a>
                             <ul class="submenu">
                                 <li class="submenu-item">
-                                    <a href="/Admin/ListEmployee">Data Employee</a>
+                                    <a href="/Admin/GetAllEmployee">Data Employee</a>
                                 </li>
                                 <li class="submenu-item">
-                                    <a href="/Admin/Payroll">Data Payslip</a>
+                                    <a href="/Admin/GetAllPayroll">Data Payroll</a>
+                                </li>
+                                <li class="submenu-item">
+                                    <a href="/Admin/ListAccountRole">Data Account Role</a>
+                                </li>
+                                <li class="submenu-item">
+                                    <a href="/Admin/ListDepartment">Data Department</a>
                                 </li>
                             </ul>
                         </li>
@@ -191,6 +197,6 @@
     <!-- custom js -->
     <script src="~/js/manager.js"></script>
 
-    
+
 </body>
 </html>

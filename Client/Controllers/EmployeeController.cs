@@ -15,9 +15,9 @@ using System.Threading.Tasks;
 
 namespace Client.Controllers
 {
-    [Authorize(Roles = "Employee")]
+   /* [Authorize(Roles = "Employee")]*/
 
-    [AllowAnonymous]
+    /*[AllowAnonymous]*/
     public class EmployeeController : Controller
     {
         private readonly IEmployeeRepository _employeeRepository;
@@ -29,7 +29,8 @@ namespace Client.Controllers
 			_overtimeRepository = overtimeRepository;
 		}
 
-		public IActionResult Payslip()
+        
+        public IActionResult Payslip()
         {
 			var token = HttpContext.Session.GetString("JWToken");
 			var claim = ExtractClaims(token);
@@ -50,8 +51,8 @@ namespace Client.Controllers
             ViewData["token"] = token;
 			return View();
         }
-       
-       public async Task<IActionResult> Profile()
+        /*[Authorize(Roles = "Employee")]*/
+        public async Task<IActionResult> Profile()
         {
             var token = HttpContext.Session.GetString("JWToken");
             var id = HttpContext.Session.GetString("id");
@@ -118,7 +119,7 @@ namespace Client.Controllers
 			}
 
         }
-
+        /*[Authorize(Roles = "Employee")]*/
         [HttpGet]
         public async Task<IActionResult> GetAllOvertimeById() {
 
