@@ -16,6 +16,7 @@ builder.Services.AddSession();
 builder.Services.AddScoped(typeof(IRepository<,>), typeof(GeneralRepository<,>));
 builder.Services.AddScoped<IOvertimeRepository, OvertimeRepository>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IManagerRepository, ManagerRepository>();
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 builder.Services.AddScoped<IPayrollRepository, PayrollRepository>();
 builder.Services.AddScoped<IAccountRoleRepository, AccountRoleRepository>();

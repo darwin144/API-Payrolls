@@ -1,90 +1,83 @@
-﻿
+﻿const token = $("#token").text();
+const guid = $("#guidEmployee").text();
 
-fetch('https://dummyjson.com/products')
+fetch(`https://localhost:7165/API-Payroll/Overtime/ChartManagerByGuid/${guid}`, {
+    headers: {
+        Authorization: `Bearer ${token}`
+    }
+})
     .then(response => response.json())
     .then(data => {
-        const product = data.products[0];
 
-        const price = product.price;
-        const discountPercentage = product.discountPercentage;
-        const rating = product.rating;
-        const stock = product.stock;
+        const approved = data.data.approved;
+        const rejected = data.data.rejected;
+        const totalMale = data.data.totalMale;
+        const totalFemale = data.data.totalFemale;
+        const total = totalMale + totalFemale;
 
-        document.getElementById('profile-views').textContent = price;
-        document.getElementById('followers').textContent = discountPercentage;
-        document.getElementById('following').textContent = rating;
-        document.getElementById('saved-post').textContent = stock;
+        console.log(total);
+        console.log(approved);
+
+
+        document.getElementById('profile-views').textContent = total;
+        document.getElementById('followers').textContent = approved;
+        document.getElementById('following').textContent = rejected;
+/*        document.getElementById('saved-post').textContent = stock;
+*/    })
+    .catch(error => console.log(error));
+
+
+//Pie chart
+fetch(`https://localhost:7165/API-Payroll/Overtime/ChartManagerByGuid/${guid}`, {
+    headers: {
+        Authorization: `Bearer ${token}`
+    }
+})
+    .then(response => response.json())
+    .then(data => {
+        const totalMale = data.data.totalMale;
+        const totalFemale = data.data.totalFemale;
+
+        const chartOptions = {
+            series: [totalMale, totalFemale],
+            labels: ['Male', 'Female'],
+            chart: {
+                type: 'donut',
+            },
+            plotOptions: {
+                pie: {
+                    donut: {
+                        size: '70%',
+                    },
+                },
+            },
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    chart: {
+                        width: 200,
+                    },
+                    legend: {
+                        position: 'bottom',
+                    },
+                },
+            }],
+        };
+
+        const chart = new ApexCharts(document.querySelector("#chart-gender"), chartOptions);
+        chart.render();
     })
     .catch(error => console.log(error));
 
 
-  /*  //chart
-// Fetch data from API
-fetch("https://jsonplaceholder.typicode.com/users")
+fetch("https://localhost:7165/API-Payroll/Overtime/ListRemainingOvertimeEmployee")
     .then((response) => response.json())
     .then((data) => {
-        const maidenNames = data.map((user) => user.name);
-        const postalCodes = data.map((user) => user.address.zipcode);
-        const cardTypes = data.map((user) => user.company.name);
+        const users = data.data;
 
-        // Prepare data for chart
-        const chartData = [
-            {
-                name: "Maiden Name",
-                data: maidenNames,
-            },
-            {
-                name: "Postal Code",
-                data: postalCodes,
-            },
-            {
-                name: "Card Type",
-                data: cardTypes,
-            },
-        // Create and render the chart
-        const chartOptions = {
-            chart: {
-                type: "line",
-            },
-            series: chartData,
-            xaxis: {
-                categories: ["User 1", "User 2", "User 3", "User 4", "User 5"], // Adjust categories as per your data
-            },
-            responsive: [
-                {
-                    breakpoint: 480,
-                    options: {
-                        chart: {
-                            width: 300,
-                        },
-                        legend: {
-                            position: "bottom",
-                        },
-                    },
-                },
-            ],
-        };
-
-        const chart = new ApexCharts(
-            document.querySelector("#chart"),
-            chartOptions
-        );
-        chart.render();
-    })
-    .catch((error) => {
-        console.error("Error:", error);
-    });*/
-
-
-    //apexchart
-fetch("https://dummyjson.com/users?limit=8&skip=10&select=firstName,age")
-    .then((response) => response.json())
-    .then((data) => {
-        const users = data.users;
-
-        const categories = users.map((user) => user.firstName);
-        const chartData = users.map((user) => user.age);
-
+        const categories = users.map((user) => user.fullname);
+        const chartData = users.map((user) => user.remainingOvertime);
+        console.log(users);
         var options = {
             series: [
                 {
@@ -133,3 +126,5 @@ fetch("https://dummyjson.com/users?limit=8&skip=10&select=firstName,age")
         chart.render();
     })
     .catch((error) => console.log(error));
+
+

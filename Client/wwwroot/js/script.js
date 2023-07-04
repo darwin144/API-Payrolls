@@ -11,7 +11,7 @@ navToggleBtn.addEventListener("click", function () {
     header.classList.toggle("active");
 });
 
-// script.js
+/*// script.js
 fetch('https://dummyjson.com/users')
     .then(response => response.json())
     .then(data => {
@@ -20,4 +20,4 @@ fetch('https://dummyjson.com/users')
         document.getElementById('following').textContent = data.height;
         document.getElementById('saved-post').textContent = data.weight;
     })
-    .catch(error => console.log(error));
+    .catch(error => console.log(error));*/
