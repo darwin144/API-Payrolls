@@ -90,7 +90,7 @@ namespace API_Payroll.Controllers
                     Message = "Seluruh Data Tidak Berhasil Ditampilkan"
                 });
             }
-            return Ok(new ResponseVM<List<OvertimeVM>>
+            return Ok(new ResponseVM<List<OvertimeApprovalVM>>
             {
                 Code = StatusCodes.Status200OK,
                 Status = HttpStatusCode.OK.ToString(),

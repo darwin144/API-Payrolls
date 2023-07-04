@@ -115,7 +115,7 @@ namespace API_Payroll.Repositories
             }
         }
 
-        public List<OvertimeVM> ListOvertimeByIdManager(Guid managerId) {
+        public List<OvertimeApprovalVM> ListOvertimeByIdManager(Guid managerId) {
             try
             {
                 var query = _context.Employees
@@ -123,9 +123,10 @@ namespace API_Payroll.Repositories
                 .Join(_context.Overtimes,
                     emp => emp.Id,
                     ov => ov.Employee_id,
-                    (emp, ov) => new OvertimeVM
+                    (emp, ov) => new OvertimeApprovalVM
                     {
                         Id = ov.Id,
+                        Fullname = emp.FirstName +" "+ emp.LastName,
                         StartOvertime = ov.StartOvertime,
                         EndOvertime = ov.EndOvertime,
                         SubmitDate = ov.SubmitDate,
