@@ -178,11 +178,13 @@ namespace API_Payroll.Repositories
                     (ov, emp) => new
                     {
                         guid = emp.Id,
-                        total = (ov.EndOvertime - ov.StartOvertime).TotalHours
+						fullname = emp.FirstName + " " + emp.LastName,
+						total = (ov.EndOvertime - ov.StartOvertime).TotalHours
                     }).ToList().GroupBy(a => a.guid).Select(b => new OvertimeRemainingVM
                     {
                         Employee_id = b.Key,
-                        RemainingOvertime = Convert.ToInt32(40 - b.Sum(c => c.total))
+						Fullname = b.First().fullname,
+						RemainingOvertime = Convert.ToInt32(40 - b.Sum(c => c.total))
                     }).ToList();
             return overtimeRemaining;
         }
