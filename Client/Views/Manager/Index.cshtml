@@ -3,8 +3,14 @@
     Layout = "_SidebarLayout";
 }
 
+<head>
 
-        <div id="main">
+</head>
+
+<body>
+    
+
+<div id="main">
     <header class="mb-3 ">
         <a href="#" class="burger-btn d-block d-xl-none">
             <i class="bi bi-justify fs-3"></i>
@@ -14,9 +20,10 @@
 
             <div class="page-heading">
                 <h3>Profile Statistics</h3>
+            
             </div>
-    <h4 hidden id="guidEmployee" rows="6" cols="150">@ViewData["guidEmployee"]</h4>
-    <h3 hidden id="token" rows="6" cols="150">@ViewData["token"]</h3>
+        <h4 hidden id="primarysid" rows="6" cols="150">@ViewData["primarysid"]</h4>
+        <h3 hidden id="token" rows="6" cols="150">@ViewData["token"]</h3>
             <div class="page-content">
                 <section class="row">
                     <div class="col-12 col-lg-9">
@@ -204,4 +211,5 @@
                 </section>
             </div>
     </div>
-</div>
+
+</body>
