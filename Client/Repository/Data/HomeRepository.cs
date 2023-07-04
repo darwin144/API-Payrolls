@@ -29,7 +29,7 @@ namespace Client.Repository.Data
 
         }
 
-        public async Task<ResponseViewModel<string>> Login(LoginVM login)
+        public async Task<ResponseViewModel<string>> Logins(LoginVM login)
         {
              ResponseViewModel<string> entityVM = null;
             StringContent content = new StringContent(JsonConvert.SerializeObject(login), Encoding.UTF8, "application/json");
@@ -42,8 +42,18 @@ namespace Client.Repository.Data
             return entityVM;
         }
 
+        public async Task<ResponseMessageVM> Registers(RegisterVM entity)
+        {
+            ResponseMessageVM entityVM = null;
+            StringContent content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
+            using (var response = httpClient.PostAsync(request + "Account/Register", content).Result)
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                entityVM = JsonConvert.DeserializeObject<ResponseMessageVM>(apiResponse);
+            }
+            return entityVM;
+        }
 
-        
 
         /*public async Task<JWTokenVM> Auth(LoginVM login)
         {

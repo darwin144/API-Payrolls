@@ -5,32 +5,27 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Net;
 using Client.Repository.Interface;
-using Microsoft.AspNetCore.Builder;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
-builder.Services.AddControllersWithViews();
-builder.Services.AddSession(options => {
-	options.IdleTimeout = TimeSpan.FromMinutes(20);
-});
 builder.Services.AddHttpContextAccessor();
-
+builder.Services.AddControllersWithViews();
+builder.Services.AddSession();
 
 builder.Services.AddScoped(typeof(IRepository<,>), typeof(GeneralRepository<,>));
 builder.Services.AddScoped<IOvertimeRepository, OvertimeRepository>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IManagerRepository, ManagerRepository>();
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 builder.Services.AddScoped<IPayrollRepository, PayrollRepository>();
 builder.Services.AddScoped<IAccountRoleRepository, AccountRoleRepository>();
+builder.Services.AddScoped<IEmployeeLevelRepository, EmployeeLevelRepository>();
 builder.Services.AddScoped<HomeRepository>();
 
 
-builder.Services.AddAuthentication(auth => {
-	        auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-	        auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options => {
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+       .AddJwtBearer(options => {
            options.RequireHttpsMetadata = false;
            options.SaveToken = true;
            options.TokenValidationParameters = new TokenValidationParameters
@@ -62,11 +57,11 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseStatusCodePages(async context =>
+/*app.UseStatusCodePages(async context =>
 {
-	var response = context.HttpContext.Response;
+    var response = context.HttpContext.Response;
 
-	if (response.StatusCode.Equals((int)HttpStatusCode.Unauthorized))
+    if (response.StatusCode.Equals((int)HttpStatusCode.Unauthorized))
     {
         response.Redirect("/unauthorized");
     }
@@ -78,7 +73,7 @@ app.UseStatusCodePages(async context =>
     {
         response.Redirect("/forbidden");
     }
-});
+});*/
 
 app.UseSession();
 
@@ -98,10 +93,9 @@ app.Use(async (context, next) =>
 app.UseAuthentication();
 
 app.UseAuthorization();
-app.UseEndpoints(endpoint => {
-	endpoint.MapControllerRoute(
-	name: "default",
-	pattern: "{controller=Home}/{action=Dashboard}/{id?}");
-});
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Register}/{id?}");
 
 app.Run();

@@ -1,7 +1,5 @@
-﻿@model Client.ViewModels.RegisterVM
-
-@{
-    ViewData["Title"] = "Register";
+﻿@{
+    Layout = "_Layout";
 }
 
 <head>
@@ -41,7 +39,7 @@
             });
         });
     </script>
-
+   
     <style>
         body,
         html {
@@ -127,145 +125,104 @@
             <p class="auth-subtitle mb-5">
                 Input your data to register to our website.
             </p>
-
-            <form action="Register" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group position-relative has-icon-left mb-3" hidden>
-                    <div class="form-control-icon" >
+            
+            <form action="index.html">
+                <div class="form-group position-relative has-icon-left mb-3">
+                    <div class="form-control-icon">
                         <i class="bi bi-envelope"></i>
                     </div>
-                @*<label asp-for="NIK" class="control-label"></label>*@
-                <input asp-for="NIK" class="form-control form-control-md" type="text" placeholder="NIK"/>
-                <span asp-validation-for="NIK" class="text-danger"></span>
-            </div>
-
+                    <input type="text"
+                           class="form-control form-control-md"
+                           placeholder="Email" />
+                </div>
                 <div class="form-group position-relative has-icon-left mb-3">
                     <div class="form-control-icon">
                         <i class="bi bi-person"></i>
                     </div>
-                @*<label asp-for="FirstName" class="control-label"></label>*@
-                    <input asp-for="FirstName" class="form-control form-control-md" type="text" placeholder="First Name" required />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
+                    <input type="text"
+                           class="form-control form-control-md"
+                           placeholder="Firstname" />
+                </div>
                 <div class="form-group position-relative has-icon-left mb-3">
                     <div class="form-control-icon">
                         <i class="bi bi-person"></i>
                     </div>
-                @*<label asp-for="LastName" class="control-label"></label>*@
-                    <input asp-for="LastName" class="form-control form-control-md" type="text" placeholder="Last Name" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-                <div class="form-group position-relative">
-                    
-                    <label asp-for="BirthDate" class="control-label"></label>
-                    <input asp-for="BirthDate" class="form-control form-control-md" placeholder="Birthdate" />
-                <span asp-validation-for="BirthDate" class="text-danger"></span>
-            </div>
-
+                    <input type="text"
+                           class="form-control form-control-md"
+                           placeholder="Lastname" />
+                </div>
 
                 <div class="form-group position-relative has-icon-left mb-3">
                     <div class="form-control-icon">
                         <i class="bi bi-gender-male-female"></i>
                     </div>
                     <div class="form-check form-check-inline">
-                @*<label asp-for="Gender" class="control-label"></label>*@
-                        <input asp-for="Gender" class="form-check-input" type="radio" name="gender" id="gender-male" value="L"/>
+                        <input class="form-check-input" type="radio" name="gender" id="gender-male" value="Laki-Laki">
                         <label class="form-check-label" for="gender-male">
                             Laki-Laki
                         </label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input asp-for="Gender" class="form-check-input" type="radio" name="gender" id="gender-female" value="P">
+                        <input class="form-check-input" type="radio" name="gender" id="gender-female" value="Perempuan">
                         <label class="form-check-label" for="gender-female">
                             Perempuan
                         </label>
                     </div>
-                <span asp-validation-for="Gender" class="text-danger"></span>
-            </div>
-
-
-
-
-                <div class="form-group position-relative">
-                    
-                <label asp-for="HiringDate" class="control-label"></label>
-                    <input asp-for="HiringDate" class="form-control form-control-md" placeholder="Hiring Date" />
-                <span asp-validation-for="HiringDate" class="text-danger"></span>
-            </div>
+                </div>
                 <div class="form-group position-relative has-icon-left mb-3">
                     <div class="form-control-icon">
-                        <i class="bi bi-envelope"></i>
+                        <i class="bi bi-calendar"></i>
                     </div>
-                @*<label asp-for="Email" class="control-label"></label>*@
-                    <input asp-for="Email" class="form-control form-control-md" type="email" placeholder="Email" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
+                    <input type="text" class="form-control form-control-md" placeholder="Birthdate" id="birthdate-input">
+                </div>
+
+                <div class="form-group position-relative has-icon-left mb-3">
+                    <div class="form-control-icon">
+                        <i class="bi bi-calendar-check"></i>
+                    </div>
+                    <input type="text" class="form-control form-control-md" placeholder="Hiring Date" id="hiringdate-input">
+                </div>
+
                 <div class="form-group position-relative has-icon-left mb-3">
                     <div class="form-control-icon">
                         <i class="bi bi-telephone"></i>
                     </div>
-                @*<label asp-for="PhoneNumber" class="control-label"></label>*@
-                    <input asp-for="PhoneNumber" class="form-control form-control-md" type="text" placeholder="Phone Number" />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group" hidden>
-                <label asp-for="ReportTo" class="control-label"></label>
-                <input asp-for="ReportTo" class="form-control" />
-                <span asp-validation-for="ReportTo" class="text-danger"></span>
-            </div>
+                    <input type="text" class="form-control form-control-md" placeholder="Phone Number" />
+                </div>
+
                 <div class="form-group position-relative has-icon-left mb-3">
                     <div class="form-control-icon">
                         <i class="bi bi-person-badge"></i>
                     </div>
-                @*<label asp-for="EmployeeLevel_id" class="control-label"></label>*@
-                    <input asp-for="EmployeeLevel_id" class="form-control form-control-md" type="text" placeholder="Employee Level ID" />
-                    @*<select asp-for="EmployeeLevel_id">
-                        @foreach( var item in ViewBag.empLevel)
-                        {
-                            <option asp-for="EmployeeLevel_id" value="@item.id"> @item.Title </option>
-                        }
+                    <input type="text" class="form-control form-control-md" placeholder="EmployeeLevel ID" />
+                </div>
 
-                    </select>*@
-                    <span asp-validation-for="EmployeeLevel_id" class="text-danger"></span>
-            </div>
                 <div class="form-group position-relative has-icon-left mb-3">
                     <div class="form-control-icon">
                         <i class="bi bi-building"></i>
                     </div>
-                @*<label asp-for="Department_id" class="control-label"></label>*@
-                    <input asp-for="Department_id" class="form-control form-control-md" type="text" placeholder="Department ID"/>
-                    @*<select asp-for="Department_id">
-                        @foreach (var item in ViewBag.deptName)
-                        {
-                            <option asp-for="Department_id" value="@item.id"> @item.Name </option>
-                        }
-
-                    </select>*@
-                <span asp-validation-for="Department_id" class="text-danger"></span>
-            </div>
+                    <input type="text" class="form-control form-control-md" placeholder="Department ID" />
+                </div>
                 <div class="form-group position-relative has-icon-left mb-3">
                     <div class="form-control-icon">
                         <i class="bi bi-shield-lock"></i>
                     </div>
-                @*<label asp-for="Password" class="control-label"></label>*@
-                    <input asp-for="Password" class="form-control form-control-md" type="password" placeholder="Password"/>
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
+                    <input type="password"
+                           class="form-control form-control-md"
+                           placeholder="Password" />
+                </div>
                 <div class="form-group position-relative has-icon-left mb-3">
                     <div class="form-control-icon">
                         <i class="bi bi-shield-lock"></i>
                     </div>
-                @*<label asp-for="ConfirmPassword" class="control-label"></label>*@
-                    <input asp-for="ConfirmPassword" class="form-control form-control-md" type="password" placeholder="Confirm Password" />
-                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-            </div>
-            @*<div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>*@
+                    <input type="password"
+                           class="form-control form-control-md"
+                           placeholder="Confirm Password" />
+                </div>
                 <button class="btn btn-primary btn-block btn-md shadow-lg mt-4">
                     Sign Up
                 </button>
-        </form>
+            </form>
             <div class="text-center mt-5 text-md fs-6">
                 <p class="text-gray-600">
                     Already have an account?
@@ -275,4 +232,5 @@
         </div>
     </div>
 
+    
 </body>

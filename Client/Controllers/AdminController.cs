@@ -1,174 +1,69 @@
 ﻿using Client.Models;
+using Client.Repository.Data;
 using Client.Repository.Interface;
 using Client.ViewModels;
 using Client.ViewModels.Payroll;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NuGet.Protocol.Core.Types;
 
 
 namespace Client.Controllers
 {
-    /*[Authorize(Roles = "Admin")]*/
+    /* [Authorize(Roles = "Admin")]*/
     /*[AllowAnonymous]*/
     public class AdminController : Controller
     {
         private readonly IEmployeeRepository repository;
-        private readonly IPayrollRepository payrollRepository;
-        private readonly IDepartmentRepository departmentRepository;
+        private readonly IEmployeeLevelRepository employeeLevelRepository;
         private readonly IAccountRoleRepository accountRoleRepository;
-
-        public AdminController(IEmployeeRepository repository, IPayrollRepository payrollRepository, IDepartmentRepository departmentRepository, IAccountRoleRepository accountRoleRepository)
+        private readonly IDepartmentRepository departmentRepository;
+        private readonly IPayrollRepository payrollRepository;
+        public AdminController(IEmployeeRepository repository,
+            IEmployeeLevelRepository employeeLevelRepository,
+            IAccountRoleRepository accountRoleRepository,
+            IDepartmentRepository departmentRepository,
+            IPayrollRepository payrollRepository)
         {
             this.repository = repository;
-            this.payrollRepository = payrollRepository;
-            this.departmentRepository = departmentRepository;
+            this.employeeLevelRepository = employeeLevelRepository;
             this.accountRoleRepository = accountRoleRepository;
+            this.departmentRepository = departmentRepository;
+            this.payrollRepository = payrollRepository;
+
         }
 
-        public async Task<IActionResult> Payroll()
-        {
-            /*return View();*/
-            var result = await payrollRepository.Get();
-            var payrolls = new List<Payroll>();
-
-            if (result.Data != null)
-            {
-                payrolls = result.Data?.Select(p => new Payroll
-                {
-                    Id = p.Id,
-                    PayDate = p.PayDate,
-                    PayrollCuts = p.PayrollCuts,
-                    TotalSalary = p.TotalSalary,
-                    Employee_id = p.Employee_id
-                }).ToList();
-            }
-            return View(payrolls);
-        }
-
-        /*[Authorize(Roles = "Admin")]*/
-        public async Task<IActionResult> GetAllPayroll()
-        {
-           
-
-            var result = await payrollRepository.GetAllPayroll();
-            var getAllPayroll = new List<PayrollPrintVM>();
-
-            if (result.Data != null)
-            {
-                getAllPayroll = result.Data.Select(e => new PayrollPrintVM
-                {
-                    Id = e.Id,
-                    PayDate = e.PayDate,
-                    Fullname = e.Fullname,
-                    Department = e.Department,
-                    Title = e.Title,
-                    Allowence = e.Allowence,
-                    Overtime = e.Overtime,
-                    PayrollCuts = e.PayrollCuts,
-                    TotalSalary = e.TotalSalary,
-                }).ToList();
-            }
-            return View(getAllPayroll);
-        }
-      
-        [HttpGet]
-        public async Task<IActionResult> CreatePayroll()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        /*[ValidateAntiForgeryToken]*/
-        public async Task<IActionResult> CreatePayroll(Payroll payroll)
-        {
-            var result = await payrollRepository.CreatePayroll(payroll);
-            if (result.Code == 200)
-            {
-                TempData["successMessage"] = "Data Berhasil Disubmit";
-                return RedirectToAction(nameof(GetAllPayroll));
-            }
-            else if (result.Code == 409)
-            {
-                ModelState.AddModelError(string.Empty, result.Message);
-                return View();
-            }
-            return RedirectToAction(nameof(GetAllPayroll));
-        }
-
-        public async Task<IActionResult> DeletePayroll(Guid Id)
-        {
-            var result = await payrollRepository.Get(Id);
-            var payroll = new Payroll();
-            if (result.Data?.Id is null)
-            {
-                return View(GetAllPayroll);
-            }
-            else
-            {
-                payroll.Id = result.Data.Id;
-                payroll.PayDate = result.Data.PayDate;
-                payroll.PayrollCuts = result.Data.PayrollCuts;
-                payroll.TotalSalary = result.Data.TotalSalary;
-                payroll.Employee_id = result.Data.Employee_id;
-            }
-            return View(GetAllPayroll);
-        }
-        [HttpPost]
-        /* [ValidateAntiForgeryToken]*/
-        public async Task<IActionResult> RemovePayroll(Guid Id)
-        {
-            var result = await payrollRepository.Deletes(Id);
-            if (result.Code == 200)
-            {
-                return RedirectToAction(nameof(GetAllPayroll));
-            }
-            return RedirectToAction(nameof(GetAllPayroll));
-        }
-
-        [HttpPost]
-        /*[ValidateAntiForgeryToken]*/
-        public async Task<IActionResult> EditPayroll(Payroll payroll)
-        {
-            var result = await payrollRepository.Put(payroll);
-            if (result.Code == 200)
-            {
-                return RedirectToAction(nameof(GetAllPayroll));
-            }
-            else if (result.Code == 409)
-            {
-                ModelState.AddModelError(string.Empty, result.Message);
-                return View();
-            }
-            return RedirectToAction(nameof(GetAllPayroll));
-        }
-        [HttpGet]
-        /* [Authorize(Roles = "Admin")]*/
-        public async Task<IActionResult> EditPayroll(Guid Id)
-        {
-            var result = await payrollRepository.Get(Id);
-            var payroll = new Payroll();
-            if (result.Data?.Id is null)
-            {
-                return View(GetAllPayroll);
-            }
-            else
-            {
-                payroll.Id = result.Data.Id;
-                payroll.PayDate = result.Data.PayDate;
-                payroll.PayrollCuts = result.Data.PayrollCuts;
-                payroll.TotalSalary = result.Data.TotalSalary;
-                payroll.Employee_id = result.Data.Employee_id;
-            }
-
-            return View(GetAllPayroll);
-        }
-
-
+        /*  public async Task<IActionResult> Payroll()
+          {
+              return View();
+          }*/
 
 
         //Employee
+        /* [Authorize(Roles = "Admin")]*/
+        public async Task<IActionResult> GetAllEmployee()
+        {
+            var result = await repository.GetAllEmployee();
+            var getAllEmployee = new List<ListEmployeeVM>();
+
+            if (result.Data != null)
+            {
+                getAllEmployee = result.Data.Select(e => new ListEmployeeVM
+                {
+                    Id = e.Id,
+                    NIK = e.NIK,
+                    FullName = e.FullName,
+                    BirthDate = e.BirthDate,
+                    Gender = e.Gender,
+                    HiringDate = e.HiringDate,
+                    Email = e.Email,
+                    PhoneNumber = e.PhoneNumber,
+                    ReportTo = e.ReportTo,
+                    Title = e.Title,
+                    DepartmentName = e.DepartmentName,
+                }).ToList();
+            }
+            return View(getAllEmployee);
+        }
 
         public async Task<IActionResult> ListEmployee()
         {
@@ -196,36 +91,6 @@ namespace Client.Controllers
             return View(employees);
         }
 
-        /*[Authorize(Roles = "Admin")]*/
-        public async Task<IActionResult> GetAllEmployee()
-        {
-
-            
-
-            var result = await repository.GetAllEmployee();
-            var getAllEmployee = new List<ListEmployeeVM>();
-
-            if (result.Data != null)
-            {
-                getAllEmployee = result.Data.Select(e => new ListEmployeeVM
-                {
-                    Id = e.Id,
-                    NIK = e.NIK,
-                    FullName = e.FullName,
-                    BirthDate = e.BirthDate,
-                    Gender = e.Gender,
-                    HiringDate = e.HiringDate,
-                    Email = e.Email,
-                    PhoneNumber = e.PhoneNumber,
-                    ReportTo = e.ReportTo,
-                    Title = e.Title,
-                    DepartmentName = e.DepartmentName,
-                }).ToList();
-            }
-            return View(getAllEmployee);
-        }
-
-
         [HttpGet]
         public async Task<IActionResult> Create()
         {
@@ -236,6 +101,9 @@ namespace Client.Controllers
         /*[ValidateAntiForgeryToken]*/
         public async Task<IActionResult> Create(Employee employee)
         {
+            /*if (ModelState.IsValid)
+            {*/
+            //daaru general repo
             var result = await repository.Post(employee);
             if (result.Code == 200)
             {
@@ -245,6 +113,7 @@ namespace Client.Controllers
             {
                 ModelState.AddModelError(string.Empty, result.Message);
                 return View();
+                /* }*/
             }
             return RedirectToAction(nameof(GetAllEmployee));
         }
@@ -291,7 +160,10 @@ namespace Client.Controllers
         /*[ValidateAntiForgeryToken]*/
         public async Task<IActionResult> Edit(Employee employee)
         {
+            /*if (ModelState.IsValid)
+            {*/
             var result = await repository.Put(employee);
+            /*if(result != null) { */
             if (result.Code == 200)
             {
                 return RedirectToAction(nameof(GetAllEmployee));
@@ -300,11 +172,14 @@ namespace Client.Controllers
             {
                 ModelState.AddModelError(string.Empty, result.Message);
                 return View();
+                /*}*/
+
             }
             return RedirectToAction(nameof(GetAllEmployee));
         }
+
         [HttpGet]
-        /*[Authorize(Roles = "Admin")]*/
+        /* [Authorize(Roles = "Admin")]*/
         public async Task<IActionResult> Edit(Guid Id)
         {
             var result = await repository.Get(Id);
@@ -332,12 +207,261 @@ namespace Client.Controllers
             return View(employee);
         }
 
+        // Employee Level 
+        public async Task<IActionResult> ListEmployeeLevel()
+        {
+            var result = await employeeLevelRepository.Get();
+            var employeeLevels = new List<EmployeeLevel>();
+
+            if (result.Data != null)
+            {
+                employeeLevels = result.Data?.Select(e => new EmployeeLevel
+                {
+                    Id = e.Id,
+                    Title = e.Title,
+                    Level = e.Level,
+                    Salary = e.Salary,
+                    Allowence = e.Allowence,
+
+                }).ToList();
+            }
+            return View(employeeLevels);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CreateEmployeeLevel()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        /*[ValidateAntiForgeryToken]*/
+        public async Task<IActionResult> CreateEmployeeLevel(EmployeeLevel employeeLevel)
+        {
+            var result = await employeeLevelRepository.Post(employeeLevel);
+            if (result.Code == 200)
+            {
+                return RedirectToAction(nameof(ListEmployeeLevel));
+            }
+            else if (result.Code == 409)
+            {
+                ModelState.AddModelError(string.Empty, result.Message);
+                return View();
+            }
+            return RedirectToAction(nameof(ListEmployeeLevel));
+        }
+
+        public async Task<IActionResult> DeleteEmployeeLevel(Guid Id)
+        {
+            var result = await employeeLevelRepository.Get(Id);
+            var employeeLevel = new EmployeeLevel();
+            if (result.Data?.Id is null)
+            {
+                return View(employeeLevel);
+            }
+            else
+            {
+                employeeLevel.Id = result.Data.Id;
+                employeeLevel.Title = result.Data.Title;
+                employeeLevel.Level = result.Data.Level;
+                employeeLevel.Salary = result.Data.Salary;
+                employeeLevel.Allowence = result.Data.Allowence;
+            }
+            return View(employeeLevel);
+        }
+
+        [HttpPost]
+        /*[ValidateAntiForgeryToken]*/
+        public async Task<IActionResult> RemoveEmployeeLevel(Guid Id)
+        {
+            var result = await employeeLevelRepository.Deletes(Id);
+            if (result.Code == 200)
+            {
+                return RedirectToAction(nameof(ListEmployeeLevel));
+            }
+            return RedirectToAction(nameof(ListEmployeeLevel));
+        }
+
+        [HttpPost]
+        /*[ValidateAntiForgeryToken]*/
+        public async Task<IActionResult> EditEmployeeLevel(EmployeeLevel employeeLevel)
+        {
+            var result = await employeeLevelRepository.Put(employeeLevel);
+            if (result.Code == 200)
+            {
+                return RedirectToAction(nameof(ListEmployeeLevel));
+            }
+            else if (result.Code == 409)
+            {
+                ModelState.AddModelError(string.Empty, result.Message);
+                return View();
+            }
+            return RedirectToAction(nameof(ListEmployeeLevel));
+        }
+
+        [HttpGet]
         /*[Authorize(Roles = "Admin")]*/
+        public async Task<IActionResult> EditEmployeeLevel(Guid Id)
+        {
+            var result = await employeeLevelRepository.Get(Id);
+            var employeeLevel = new EmployeeLevel();
+            if (result.Data?.Id is null)
+            {
+                return View(employeeLevel);
+            }
+            else
+            {
+                employeeLevel.Id = result.Data.Id;
+                employeeLevel.Title = result.Data.Title;
+                employeeLevel.Level = result.Data.Level;
+                employeeLevel.Salary = result.Data.Salary;
+                employeeLevel.Allowence = result.Data.Allowence;
+            }
+
+            return View(employeeLevel);
+        }
+
+        //AccountRole
+        public async Task<IActionResult> ListAccountRole()
+        {
+            var result = await accountRoleRepository.Get();
+            var accountRoles = new List<AccountRole>();
+
+            if (result.Data != null)
+            {
+                accountRoles = result.Data?.Select(e => new AccountRole
+                {
+                    Id = e.Id,
+                    Account_id = e.Account_id,
+                    Role_id = e.Role_id,
+
+                }).ToList();
+            }
+            return View(accountRoles);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CreateAccountRole()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> CreateAccountRole(AccountRole accountRole)
+        {
+            /*if (ModelState.IsValid)
+            {*/
+            var result = await accountRoleRepository.Post(accountRole);
+            if (result.Code == 200)
+            {
+                return RedirectToAction(nameof(GetAllMasterAccountRole));
+            }
+            else if (result.Code == 409)
+            {
+                ModelState.AddModelError(string.Empty, result.Message);
+                return View();
+            }
+            /* }*/
+            return RedirectToAction(nameof(GetAllMasterAccountRole));
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllMasterAccountRole()
+        {
+            var result = await accountRoleRepository.GetAllMasterAccountRole();
+            var getAllAccountRole = new List<ListAccountRoleVM>();
+
+            if (result.Data != null)
+            {
+                getAllAccountRole = result.Data.Select(e => new ListAccountRoleVM
+                {
+                    Id = e.Id,
+                    FirstName = e.FirstName,
+                    LastName = e.LastName,
+                    Email = e.Email,
+                    Name = e.Name,
+                }).ToList();
+            }
+            return View(getAllAccountRole);
+        }
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> EditAccountRole(Guid Id)
+        {
+            var result = await accountRoleRepository.Get(Id);
+            var accountRole = new AccountRole();
+            if (result.Data?.Id is null)
+            {
+                return View(accountRole);
+            }
+            else
+            {
+                accountRole.Id = result.Data.Id;
+                accountRole.Account_id = result.Data.Account_id;
+                accountRole.Role_id = result.Data.Role_id;
+            }
+
+            return View(accountRole);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> EditAccountRole(AccountRole accountRole)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await accountRoleRepository.Put(accountRole);
+                if (result.Code == 200)
+                {
+                    return RedirectToAction(nameof(GetAllMasterAccountRole));
+                }
+                else if (result.Code == 409)
+                {
+                    ModelState.AddModelError(string.Empty, result.Message);
+                    return View();
+                }
+            }
+            return RedirectToAction(nameof(GetAllMasterAccountRole));
+        }
+
+        public async Task<IActionResult> DeletesAccountRole(Guid Id)
+        {
+            var result = await accountRoleRepository.Get(Id);
+            var accountRole = new AccountRole();
+            if (result.Data?.Id is null)
+            {
+                return View(accountRole);
+            }
+            else
+            {
+                accountRole.Id = result.Data.Id;
+                accountRole.Account_id = result.Data.Account_id;
+                accountRole.Role_id = result.Data.Role_id;
+
+            }
+            return View(accountRole);
+        }
+
+
+        [HttpPost]
+        /* [ValidateAntiForgeryToken]*/
+        public async Task<IActionResult> RemoveAccountRole(Guid Id)
+        {
+            var result = await accountRoleRepository.Deletes(Id);
+            if (result.Code == 200)
+            {
+                return RedirectToAction(nameof(GetAllMasterAccountRole));
+            }
+            return RedirectToAction(nameof(GetAllMasterAccountRole));
+        }
+
         //Department
         public async Task<IActionResult> ListDepartment()
         {
-           
-
             var result = await departmentRepository.Get();
             var departments = new List<Department>();
 
@@ -352,7 +476,7 @@ namespace Client.Controllers
             }
             return View(departments);
         }
-        
+
         [HttpGet]
         public async Task<IActionResult> CreateDepartment()
         {
@@ -438,121 +562,182 @@ namespace Client.Controllers
             return View(department);
         }
 
-        /*[Authorize(Roles = "Admin")]*/
-        //AccountRole
-        public async Task<IActionResult> ListAccountRole()
+
+
+        //Payroll
+        public async Task<IActionResult> Payroll()
         {
-            var result = await accountRoleRepository.Get();
-            var accountRoles = new List<AccountRole>();
+            /*return View();*/
+            var result = await payrollRepository.Get();
+            var payrolls = new List<Payroll>();
 
             if (result.Data != null)
             {
-                accountRoles = result.Data?.Select(e => new AccountRole
+                payrolls = result.Data?.Select(p => new Payroll
                 {
-                    Id = e.Id,
-                    Account_id = e.Account_id,
-                    Role_id = e.Role_id,
-
+                    Id = p.Id,
+                    PayDate = p.PayDate,
+                    PayrollCuts = p.PayrollCuts,
+                    TotalSalary = p.TotalSalary,
+                    Employee_id = p.Employee_id
                 }).ToList();
             }
-            return View(accountRoles);
+            return View(payrolls);
         }
 
+
+        public async Task<IActionResult> GetAllPayroll()
+        {
+            var result = await payrollRepository.GetAllPayroll();
+            var getAllPayroll = new List<PayrollPrintVM>();
+
+            if (result.Data != null)
+            {
+                getAllPayroll = result.Data.Select(e => new PayrollPrintVM
+                {
+                    Id = e.Id,
+                    PayDate = e.PayDate,
+                    Fullname = e.Fullname,
+                    Department = e.Department,
+                    Title = e.Title,
+                    Allowence = e.Allowence,
+                    Overtime = e.Overtime,
+                    PayrollCuts = e.PayrollCuts,
+                    TotalSalary = e.TotalSalary,
+                }).ToList();
+            }
+            return View(getAllPayroll);
+        }
+
+
+
+
+
         [HttpGet]
-        public async Task<IActionResult> CreateAccountRole()
+        public async Task<IActionResult> CreatePayroll()
         {
             return View();
         }
 
-
-        [HttpPost("CreateAcccountRole")]
-        public async Task<IActionResult> CreateAcccountRole(AccountRole accountRole)
+        [HttpPost]
+        /*[ValidateAntiForgeryToken]*/
+        public async Task<IActionResult> CreatePayroll(Payroll payroll)
         {
-            if (ModelState.IsValid)
+            var result = await payrollRepository.CreatePayroll(payroll);
+            if (result.Code == 200)
             {
-                var result = await accountRoleRepository.Post(accountRole);
-                if (result.Code == 200)
-                {
-                    return RedirectToAction(nameof(ListAccountRole));
-                }
-                else if (result.Code == 409)
-                {
-                    ModelState.AddModelError(string.Empty, result.Message);
-                    return View();
-                }
+                TempData["successMessage"] = "Data Berhasil Disubmit";
+                return RedirectToAction(nameof(GetAllPayroll));
             }
-            return RedirectToAction(nameof(ListAccountRole));
+            else if (result.Code == 409)
+            {
+                ModelState.AddModelError(string.Empty, result.Message);
+                return View();
+            }
+            return RedirectToAction(nameof(GetAllPayroll));
+        }
+
+        public async Task<IActionResult> DeletePayroll(Guid Id)
+        {
+            var result = await payrollRepository.Get(Id);
+            var payroll = new Payroll();
+            if (result.Data?.Id is null)
+            {
+                return View(payroll);
+            }
+            else
+            {
+                payroll.Id = result.Data.Id;
+                payroll.PayDate = result.Data.PayDate;
+                payroll.PayrollCuts = result.Data.PayrollCuts;
+                payroll.TotalSalary = result.Data.TotalSalary;
+                payroll.Employee_id = result.Data.Employee_id;
+            }
+            return View(payroll);
+        }
+        [HttpPost]
+        /* [ValidateAntiForgeryToken]*/
+        public async Task<IActionResult> RemovePayroll(Guid Id)
+        {
+            var result = await payrollRepository.Deletes(Id);
+            if (result.Code == 200)
+            {
+                return RedirectToAction(nameof(GetAllPayroll));
+            }
+            return RedirectToAction(nameof(GetAllPayroll));
+        }
+
+        [HttpPost]
+        /*[ValidateAntiForgeryToken]*/
+        public async Task<IActionResult> EditPayroll(Payroll payroll)
+        {
+            var result = await payrollRepository.Put(payroll);
+            if (result.Code == 200)
+            {
+                return RedirectToAction(nameof(GetAllPayroll));
+            }
+            else if (result.Code == 409)
+            {
+                ModelState.AddModelError(string.Empty, result.Message);
+                return View();
+            }
+            return RedirectToAction(nameof(GetAllPayroll));
         }
 
         [HttpGet]
-        public async Task<IActionResult> EditAccountRole(Guid Id)
+        /* [Authorize(Roles = "Admin")]*/
+        public async Task<IActionResult> EditPayroll(Guid Id)
         {
-            var result = await accountRoleRepository.Get(Id);
-            var accountRole = new AccountRole();
+            var result = await payrollRepository.Get(Id);
+            var payroll = new Payroll();
             if (result.Data?.Id is null)
             {
-                return View(accountRole);
+                return View(payroll);
             }
             else
             {
-                accountRole.Id = result.Data.Id;
-                accountRole.Account_id = result.Data.Account_id;
-                accountRole.Role_id = result.Data.Role_id;
+                payroll.Id = result.Data.Id;
+                payroll.PayDate = result.Data.PayDate;
+                payroll.PayrollCuts = result.Data.PayrollCuts;
+                payroll.TotalSalary = result.Data.TotalSalary;
+                payroll.Employee_id = result.Data.Employee_id;
             }
 
-            return View(accountRole);
+            return View(payroll);
         }
 
+
+        // Register 
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
 
         [HttpPost]
-        public async Task<IActionResult> EditAccountRole(AccountRole accountRole)
+        /*[ValidateAntiForgeryToken]*/
+        public async Task<IActionResult> CreateRegister(Employee employee)
         {
-            if (ModelState.IsValid)
-            {
-                var result = await accountRoleRepository.Put(accountRole);
-                if (result.Code == 200)
-                {
-                    return RedirectToAction(nameof(ListAccountRole));
-                }
-                else if (result.Code == 409)
-                {
-                    ModelState.AddModelError(string.Empty, result.Message);
-                    return View();
-                }
-            }
-            return RedirectToAction(nameof(ListAccountRole));
-        }
-
-        public async Task<IActionResult> DeletesAccountRole(Guid Id)
-        {
-            var result = await accountRoleRepository.Get(Id);
-            var accountRole = new AccountRole();
-            if (result.Data?.Id is null)
-            {
-                return View(accountRole);
-            }
-            else
-            {
-                accountRole.Id = result.Data.Id;
-                accountRole.Account_id = result.Data.Account_id;
-                accountRole.Role_id = result.Data.Role_id;
-
-            }
-            return View(accountRole);
-        }
-
-
-        [HttpPost]
-        /* [ValidateAntiForgeryToken]*/
-        public async Task<IActionResult> RemoveAccountRole(Guid Id)
-        {
-            var result = await accountRoleRepository.Deletes(Id);
+            /*if (ModelState.IsValid)
+            {*/
+            //daaru general repo
+            var result = await repository.Post(employee);
             if (result.Code == 200)
             {
-                return RedirectToAction(nameof(ListAccountRole));
+                return RedirectToAction(nameof(GetAllEmployee));
             }
-            return RedirectToAction(nameof(ListAccountRole));
+            else if (result.Code == 409)
+            {
+                ModelState.AddModelError(string.Empty, result.Message);
+                return View();
+                /* }*/
+            }
+            return RedirectToAction(nameof(GetAllEmployee));
         }
+
+
+
+
     }
 }
 

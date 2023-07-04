@@ -1,135 +1,141 @@
-﻿
+﻿const token = $("#token").text();
 
-fetch('https://dummyjson.com/products')
-    .then(response => response.json())
-    .then(data => {
-        const product = data.products[0];
+// Parse token sebagai JSON
+const decodedToken = JSON.parse(atob(token.split('.')[1]));
 
-        const price = product.price;
-        const discountPercentage = product.discountPercentage;
-        const rating = product.rating;
-        const stock = product.stock;
+// Mengambil nilai primarysid
+const primarysid = decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/primarysid"];
+document.getElementById("primarysid").textContent = primarysid;
 
-        document.getElementById('profile-views').textContent = price;
-        document.getElementById('followers').textContent = discountPercentage;
-        document.getElementById('following').textContent = rating;
-        document.getElementById('saved-post').textContent = stock;
+console.log("primarysid: " + primarysid);
+
+function fetchEmployeeData() {
+    fetch(`https://localhost:7165/API-Payroll/Overtime/ChartManagerByGuid/${primarysid}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
     })
-    .catch(error => console.log(error));
+        .then(response => response.json())
+        .then(data => {
+            const approved = data.data.approved;
+            const rejected = data.data.rejected;
+            const totalMale = data.data.totalMale;
+            const totalFemale = data.data.totalFemale;
+            const total = totalMale + totalFemale;
 
+            console.log(total);
+            console.log(approved);
 
-  /*  //chart
-// Fetch data from API
-fetch("https://jsonplaceholder.typicode.com/users")
-    .then((response) => response.json())
-    .then((data) => {
-        const maidenNames = data.map((user) => user.name);
-        const postalCodes = data.map((user) => user.address.zipcode);
-        const cardTypes = data.map((user) => user.company.name);
+            document.getElementById('profile-views').textContent = total;
+            document.getElementById('followers').textContent = approved;
+            document.getElementById('following').textContent = rejected;
+        })
+        .catch(error => console.log(error));
+}
 
-        // Prepare data for chart
-        const chartData = [
-            {
-                name: "Maiden Name",
-                data: maidenNames,
-            },
-            {
-                name: "Postal Code",
-                data: postalCodes,
-            },
-            {
-                name: "Card Type",
-                data: cardTypes,
-            },
-        // Create and render the chart
-        const chartOptions = {
-            chart: {
-                type: "line",
-            },
-            series: chartData,
-            xaxis: {
-                categories: ["User 1", "User 2", "User 3", "User 4", "User 5"], // Adjust categories as per your data
-            },
-            responsive: [
-                {
+function fetchGenderChartData() {
+    fetch(`https://localhost:7165/API-Payroll/Overtime/ChartManagerByGuid/${primarysid}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            const totalMale = data.data.totalMale;
+            const totalFemale = data.data.totalFemale;
+
+            const chartOptions = {
+                series: [totalMale, totalFemale],
+                labels: ['Male', 'Female'],
+                chart: {
+                    type: 'donut',
+                },
+                plotOptions: {
+                    pie: {
+                        donut: {
+                            size: '70%',
+                        },
+                    },
+                },
+                responsive: [{
                     breakpoint: 480,
                     options: {
                         chart: {
-                            width: 300,
+                            width: 200,
                         },
                         legend: {
-                            position: "bottom",
+                            position: 'bottom',
+                        },
+                    },
+                }],
+            };
+
+            const chart = new ApexCharts(document.querySelector("#chart-gender"), chartOptions);
+            chart.render();
+        })
+        .catch(error => console.log(error));
+}
+
+function fetchRemainingOvertimeData() {
+    fetch("https://localhost:7165/API-Payroll/Overtime/ListRemainingOvertimeEmployee")
+        .then((response) => response.json())
+        .then((data) => {
+            const users = data.data;
+
+            const categories = users.map((user) => user.fullname);
+            const chartData = users.map((user) => user.remainingOvertime);
+            console.log(users);
+            var options = {
+                series: [
+                    {
+                        data: chartData,
+                    },
+                ],
+                chart: {
+                    height: 350,
+                    type: "bar",
+                    events: {
+                        click: function (chart, w, e) {
+                            // console.log(chart, w, e)
                         },
                     },
                 },
-            ],
-        };
-
-        const chart = new ApexCharts(
-            document.querySelector("#chart"),
-            chartOptions
-        );
-        chart.render();
-    })
-    .catch((error) => {
-        console.error("Error:", error);
-    });*/
-
-
-    //apexchart
-fetch("https://dummyjson.com/users?limit=8&skip=10&select=firstName,age")
-    .then((response) => response.json())
-    .then((data) => {
-        const users = data.users;
-
-        const categories = users.map((user) => user.firstName);
-        const chartData = users.map((user) => user.age);
-
-        var options = {
-            series: [
-                {
-                    data: chartData,
-                },
-            ],
-            chart: {
-                height: 350,
-                type: "bar",
-                events: {
-                    click: function (chart, w, e) {
-                        // console.log(chart, w, e)
+                plotOptions: {
+                    bar: {
+                        columnWidth: "45%",
+                        distributed: true,
                     },
                 },
-            },
-            plotOptions: {
-                bar: {
-                    columnWidth: "45%",
-                    distributed: true,
+                dataLabels: {
+                    enabled: false,
                 },
-            },
-            dataLabels: {
-                enabled: false,
-            },
-            legend: {
-                show: false,
-            },
-            xaxis: {
-                categories: categories,
-                labels: {
-                    style: {
-                        colors: ["#333"],
-                        fontSize: "12px",
-                    },
-                    title: {
-                        text: "Age (years)",
+                legend: {
+                    show: false,
+                },
+                xaxis: {
+                    categories: categories,
+                    labels: {
+                        style: {
+                            colors: ["#333"],
+                            fontSize: "12px",
+                        },
+                        title: {
+                            text: "Age (years)",
+                        },
                     },
                 },
-            },
-        };
+            };
 
-        var chart = new ApexCharts(
-            document.querySelector("#charta"),
-            options
-        );
-        chart.render();
-    })
-    .catch((error) => console.log(error));
+            var chart = new ApexCharts(
+                document.querySelector("#charta"),
+                options
+            );
+            chart.render();
+        })
+        .catch((error) => console.log(error));
+}
+
+// Panggil fungsi-fungsi untuk mengambil data dan merender grafik
+fetchEmployeeData();
+fetchGenderChartData();
+fetchRemainingOvertimeData();

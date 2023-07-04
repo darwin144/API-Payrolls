@@ -10,11 +10,11 @@ using System.Text;
 
 namespace Client.Repository.Data
 {
-    public class EmployeeRepository : GeneralRepository<Employee, Guid>, IEmployeeRepository
+    public class ManagerRepository : GeneralRepository<Manager, Guid>, IManagerRepository
     {
         private readonly HttpClient httpClient;
         private readonly string request;
-        public EmployeeRepository(string request = "") : base(request)
+        public ManagerRepository(string request = "") : base(request)
         {
             httpClient = new HttpClient
             {
@@ -35,17 +35,6 @@ namespace Client.Repository.Data
 
             return employeeResponse;
         }
-        public async Task<ResponseListVM<ListEmployeeVM>> GetAllEmployee()
-        {
-            ResponseListVM<ListEmployeeVM> entityVM = null;
-            using (var response = httpClient.GetAsync(request + "Employee/" + "GetAllMasterEmployee").Result)
-            {
-                string apiResponse = await response.Content.ReadAsStringAsync();
-                entityVM = JsonConvert.DeserializeObject<ResponseListVM<ListEmployeeVM>>(apiResponse);
-            }
-            return entityVM;
-        }
 
-        
     }
 }
