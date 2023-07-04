@@ -27,9 +27,7 @@ namespace Client.Controllers
 		{
 			_employeeRepository = employeeRepository;
 			_overtimeRepository = overtimeRepository;
-		}
-
-        
+		}        
         public IActionResult Payslip()
         {
 			var token = HttpContext.Session.GetString("JWToken");
@@ -103,6 +101,7 @@ namespace Client.Controllers
                     var guidEmployee = claim.Where(claim => claim.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/primarysid").Select(s => s.Value).Single();
 
                     overtime.Employee_id = Guid.Parse(guidEmployee);
+                    overtime.SubmitDate = DateTime.Today;
 
                     var result = await _overtimeRepository.RequestOvertime(overtime);
                     if (result.Code == 200)
