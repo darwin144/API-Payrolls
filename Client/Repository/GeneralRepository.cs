@@ -31,7 +31,8 @@ namespace Client.Repository
             {
                 BaseAddress = new Uri("https://localhost:7165/API-Payroll/")
             };
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", _contextAccessor.HttpContext.Session.GetString("JWToken"));
+/*            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", _contextAccessor.HttpContext.Session.GetString("JWToken"));
+*/
         }
 
         public async Task<ResponseMessageVM> Deletes(TId Guid)

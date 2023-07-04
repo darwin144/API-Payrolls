@@ -100,7 +100,7 @@
                                 <span>Home</span>
                             </a>
                         </li>
-                        <li class="sidebar-item has-sub">
+                        <li hidden class="sidebar-item has-sub">
                             <a href="#" class="sidebar-link">
                                 <i class="bi bi-lock-fill"></i>
                                 <span>HR</span>
@@ -120,7 +120,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="sidebar-item has-sub">
+                        <li hidden class="sidebar-item has-sub">
                             <a href="#" class="sidebar-link">
                                 <i class="bi bi-person-video"></i>
                                 <span>Manager</span>
@@ -154,7 +154,7 @@
                                     <a href="/Employee/Request">Overtime</a>
                                 </li>
                                 <li class="submenu-item">
-                                    <a href="/Employee/Profile">Profile</a>
+                                    <a asp-controller="Employee" asp-action="Profile">Profile</a>
                                 </li>
 
                             </ul>

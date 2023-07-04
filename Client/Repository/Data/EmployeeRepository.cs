@@ -14,6 +14,9 @@ namespace Client.Repository.Data
     {
         private readonly HttpClient httpClient;
         private readonly string request;
+        public readonly IHttpContextAccessor _contextAccessor;
+
+
         public EmployeeRepository(string request = "Employee/") : base(request)
         {
             httpClient = new HttpClient
@@ -35,7 +38,8 @@ namespace Client.Repository.Data
 
             return employeeResponse;
         }
-public async Task<ResponseListVM<ListEmployeeVM>> GetAllEmployee()
+
+        public async Task<ResponseListVM<ListEmployeeVM>> GetAllEmployee()
         {
             ResponseListVM<ListEmployeeVM> entityVM = null;
             using (var response = httpClient.GetAsync(request + "GetAllMasterEmployee").Result)

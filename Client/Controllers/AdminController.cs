@@ -72,11 +72,7 @@ namespace Client.Controllers
             }
             return View(getAllPayroll);
         }
-
-
-
-
-        
+      
         [HttpGet]
         public async Task<IActionResult> CreatePayroll()
         {

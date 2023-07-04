@@ -14,7 +14,7 @@ $.ajax({
             data: data,
             columns: [
                 { title: 'NO', data: null },
-                { title: 'Name', data: 'fullname' },
+                { title: 'Name', data: 'fullName' },
                 { title: 'Start Overtime', data: 'startOvertime' },
                 { title: 'End Overtime', data: 'endOvertime' },
                 { title: 'Submit Date', data: 'submitDate' },
@@ -69,7 +69,7 @@ function Approved(index) {
     const data = $('#tableOvertimeApproval').DataTable().row(index).data();
     const overtime = {
         id: data.id,
-        fullname: data.fullname,
+        fullName: data.fullName,
         startOvertime: data.startOvertime,
         endOvertime: data.endOvertime,
         submitDate: data.submitDate,

@@ -20,8 +20,8 @@ namespace Client.Repository.Data
 
         public HomeRepository(string request = "") : base(request)
         {
-/*            _contextAccessor = new HttpContextAccessor();
-*/            httpClient = new HttpClient
+			_contextAccessor = new HttpContextAccessor();
+            httpClient = new HttpClient
             {
                 BaseAddress = new Uri("https://localhost:7165/API-Payroll/")
             };
@@ -38,6 +38,7 @@ namespace Client.Repository.Data
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 entityVM = JsonConvert.DeserializeObject < ResponseViewModel<string>> (apiResponse);
             }
+
             return entityVM;
         }
 

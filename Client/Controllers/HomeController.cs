@@ -1,5 +1,4 @@
-﻿
-using Client.Repository.Data;
+﻿using Client.Repository.Data;
 using Client.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -20,7 +19,7 @@ namespace Client.Controllers
 {
     [AllowAnonymous]
     public class HomeController : Controller
-    {
+        {
         private readonly HomeRepository _repository;
 
         public HomeController(HomeRepository repository)
@@ -34,10 +33,13 @@ namespace Client.Controllers
             return View();
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
+			var token = HttpContext.Session.GetString("JWToken");
+			Console.WriteLine("JWTToken in session: " + token);
 
-            return View();
+			return View();
         }
 
         [HttpGet]
@@ -59,8 +61,8 @@ namespace Client.Controllers
             }
             var token = jwtToken.Data;
             var claim = ExtractClaims(token);
-            var roleClaim = claim.FirstOrDefault(c => c.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role");
-            var role = roleClaim != null ? roleClaim.Value : null;
+            var roleClaim = claim.Where(c => c.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role").Select(c => c.Value).LastOrDefault();
+            /*var role = roleClaim != null ? roleClaim.Value : null;*/
             var idClaim = claim.FirstOrDefault(c => c.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/primarysid");
             var id = idClaim != null ? idClaim.Value : null;
             if (token == null)
@@ -72,15 +74,16 @@ namespace Client.Controllers
             HttpContext.Session.SetString("id", id);
 
 
-            if (role.Contains("Employee"))
-            {
-                return RedirectToAction("Profile", "Employee");
+            if (roleClaim.Contains("Employee"))
+            {			
+				return RedirectToAction("Request", "Employee");
+
             }
-            else if (role.Contains("Manager"))
+            else if (roleClaim.Contains("Manager"))
             {
                 return RedirectToAction("Index", "Manager");
             }
-            else if (role.Contains("Admin"))
+            else if (roleClaim.Contains("Admin"))
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -121,23 +124,7 @@ namespace Client.Controllers
             return View();
         }
 
-        /*  [HttpGet("Unauthorized/")]
-          public IActionResult Unauthorized()
-          {
-              return View("401");
-          }
-
-          [HttpGet("Forbidden/")]
-          public IActionResult Forbidden()
-          {
-              return View("403");
-          }
-
-          [HttpGet("Notfound/")]
-          public IActionResult Notfound()
-          {
-              return View("404");
-          }*/
+        
         [AllowAnonymous]
         [HttpGet("/Unauthorized")]
         public IActionResult Unauthorized()

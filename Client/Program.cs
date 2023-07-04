@@ -5,13 +5,18 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Net;
 using Client.Repository.Interface;
+using Microsoft.AspNetCore.Builder;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddControllersWithViews();
-builder.Services.AddSession();
+builder.Services.AddSession(options => {
+	options.IdleTimeout = TimeSpan.FromMinutes(20);
+});
+builder.Services.AddHttpContextAccessor();
+
 
 builder.Services.AddScoped(typeof(IRepository<,>), typeof(GeneralRepository<,>));
 builder.Services.AddScoped<IOvertimeRepository, OvertimeRepository>();
@@ -22,8 +27,10 @@ builder.Services.AddScoped<IAccountRoleRepository, AccountRoleRepository>();
 builder.Services.AddScoped<HomeRepository>();
 
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-       .AddJwtBearer(options => {
+builder.Services.AddAuthentication(auth => {
+	        auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+	        auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options => {
            options.RequireHttpsMetadata = false;
            options.SaveToken = true;
            options.TokenValidationParameters = new TokenValidationParameters
@@ -57,9 +64,9 @@ app.UseRouting();
 
 app.UseStatusCodePages(async context =>
 {
-    var response = context.HttpContext.Response;
+	var response = context.HttpContext.Response;
 
-    if (response.StatusCode.Equals((int)HttpStatusCode.Unauthorized))
+	if (response.StatusCode.Equals((int)HttpStatusCode.Unauthorized))
     {
         response.Redirect("/unauthorized");
     }
@@ -91,9 +98,10 @@ app.Use(async (context, next) =>
 app.UseAuthentication();
 
 app.UseAuthorization();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Dashboard}/{id?}");
+app.UseEndpoints(endpoint => {
+	endpoint.MapControllerRoute(
+	name: "default",
+	pattern: "{controller=Home}/{action=Dashboard}/{id?}");
+});
 
 app.Run();

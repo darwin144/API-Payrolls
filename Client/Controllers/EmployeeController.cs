@@ -15,9 +15,7 @@ using System.Threading.Tasks;
 
 namespace Client.Controllers
 {
-   /* [Authorize(Roles = "Employee")]*/
 
-    /*[AllowAnonymous]*/
     public class EmployeeController : Controller
     {
         private readonly IEmployeeRepository _employeeRepository;
@@ -49,10 +47,12 @@ namespace Client.Controllers
             ViewData["token"] = token;
 			return View();
         }
-        /*[Authorize(Roles = "Employee")]*/
+     
+        [HttpGet]
         public async Task<IActionResult> Profile()
         {
-            var token = HttpContext.Session.GetString("JWToken");
+			HttpContext.Session.GetString("JWToken");
+			var token = HttpContext.Session.GetString("JWToken");
             var id = HttpContext.Session.GetString("id");
 
             if (token != null && id != null)
@@ -63,10 +63,12 @@ namespace Client.Controllers
                 var claims = ExtractClaims(token);
                 var idClaim = claims.FirstOrDefault(c => c.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/primarysid")?.Value;
 
+                var guidEmployee = Guid.Parse(idClaim);
 
-                if (Guid.TryParse(idClaim, out Guid userId))
+
+				if (guidEmployee != null)
                 {
-                    var employeeResponse = await _employeeRepository.GetEmployeeById(userId);
+                    var employeeResponse = await _employeeRepository.GetEmployeeById(guidEmployee);
 
                     if (employeeResponse != null && employeeResponse.Data != null)
                     {
@@ -118,7 +120,7 @@ namespace Client.Controllers
 			}
 
         }
-        /*[Authorize(Roles = "Employee")]*/
+        
         [HttpGet]
         public async Task<IActionResult> GetAllOvertimeById() {
 
