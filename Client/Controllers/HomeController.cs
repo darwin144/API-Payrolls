@@ -24,9 +24,14 @@ namespace Client.Controllers
     {
         private readonly HomeRepository _repository;
 
+       /* private readonly EmployeeLevelRepository _employeeLevelRepository;
+        private readonly DepartmentRepository _departmentRepository;*/
+
         public HomeController(HomeRepository repository)
         {
             _repository = repository;
+           /* _employeeLevelRepository = employeeLevelRepository;
+            _departmentRepository = departmentRepository;*/
         }
 
         public IActionResult Dashboard()
@@ -108,8 +113,14 @@ namespace Client.Controllers
 
 
         [HttpGet]
-        public IActionResult Register()
+        public async Task<IActionResult> Register()
         {
+           /* var empLevel = await _employeeLevelRepository.Get();
+            var deptName = await _departmentRepository.Get();
+            ViewBag.empLevel=empLevel.Data;
+            ViewBag.departmentName=deptName.Data;
+*/
+
             return View();
         }
 
@@ -119,6 +130,8 @@ namespace Client.Controllers
         {
 
             var result = await _repository.Registers(registerVM);
+
+
             if (result is null)
             {
                 return RedirectToAction("Error", "Home");
@@ -135,6 +148,8 @@ namespace Client.Controllers
                 return RedirectToAction("Dashboard", "Home");
             }
             return RedirectToAction("Dashboard", "Home");
+
+
         }
 
         public IActionResult ForgotPassword()

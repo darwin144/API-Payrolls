@@ -219,7 +219,14 @@
                     </div>
                 @*<label asp-for="EmployeeLevel_id" class="control-label"></label>*@
                     <input asp-for="EmployeeLevel_id" class="form-control form-control-md" type="text" placeholder="Employee Level ID" />
-                <span asp-validation-for="EmployeeLevel_id" class="text-danger"></span>
+                    @*<select asp-for="EmployeeLevel_id">
+                        @foreach( var item in ViewBag.empLevel)
+                        {
+                            <option asp-for="EmployeeLevel_id" value="@item.id"> @item.Title </option>
+                        }
+
+                    </select>*@
+                    <span asp-validation-for="EmployeeLevel_id" class="text-danger"></span>
             </div>
                 <div class="form-group position-relative has-icon-left mb-3">
                     <div class="form-control-icon">
@@ -227,6 +234,13 @@
                     </div>
                 @*<label asp-for="Department_id" class="control-label"></label>*@
                     <input asp-for="Department_id" class="form-control form-control-md" type="text" placeholder="Department ID"/>
+                    @*<select asp-for="Department_id">
+                        @foreach (var item in ViewBag.deptName)
+                        {
+                            <option asp-for="Department_id" value="@item.id"> @item.Name </option>
+                        }
+
+                    </select>*@
                 <span asp-validation-for="Department_id" class="text-danger"></span>
             </div>
                 <div class="form-group position-relative has-icon-left mb-3">
