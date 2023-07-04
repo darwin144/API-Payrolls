@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Client.Controllers
 {
-  /*  [Authorize(Roles = "Manager")]*/
+    /*[Authorize(Roles = "Manager")]*/
 
     /*    [AllowAnonymous]
     */
@@ -40,9 +40,9 @@ namespace Client.Controllers
             var claims = ExtractClaims(token);
             var guidEmployee = claims.Where(claim => claim.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/primarysid").Select(s => s.Value).Single();
             var idClaim = claims.FirstOrDefault(c => c.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/primarysid")?.Value;
-            var roleClaim = claims.FirstOrDefault(c => c.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role")?.Value;
-
-            if (Guid.TryParse(idClaim, out Guid userId) && roleClaim == "Manager")
+/*            var roleClaim = claims.FirstOrDefault(c => c.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role")?.Value;
+*/
+            if (Guid.TryParse(idClaim, out Guid userId)/* && roleClaim == "Manager"*/)
             {
                 var managerResponse = await _repository.GetEmployeeById(userId);
 

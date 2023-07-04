@@ -56,7 +56,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseStatusCodePages(async context =>
+/*app.UseStatusCodePages(async context =>
 {
     var response = context.HttpContext.Response;
 
@@ -72,7 +72,7 @@ app.UseStatusCodePages(async context =>
     {
         response.Redirect("/forbidden");
     }
-});
+});*/
 
 app.UseSession();
 

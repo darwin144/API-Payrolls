@@ -15,8 +15,8 @@ using System.Threading.Tasks;
 
 namespace Client.Controllers
 {
-   /* [Authorize(Roles = "Employee")]*/
-
+/*    [Authorize(Roles = "Employee")]
+*/
     /*[AllowAnonymous]*/
     public class EmployeeController : Controller
     {
