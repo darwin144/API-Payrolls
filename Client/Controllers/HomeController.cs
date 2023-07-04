@@ -15,6 +15,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.IdentityModel.Tokens;
+using NuGet.Protocol.Core.Types;
 
 namespace Client.Controllers
 {
@@ -50,7 +51,7 @@ namespace Client.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginVM login)
         {
-            var jwtToken = await _repository.Login(login);
+            var jwtToken = await _repository.Logins(login);
 
             if (jwtToken == null || jwtToken.Data == null)
             {
@@ -106,10 +107,34 @@ namespace Client.Controllers
         }
 
 
-
+        [HttpGet]
         public IActionResult Register()
         {
             return View();
+        }
+
+        [HttpPost]
+        /* [ValidateAntiForgeryToken]*/
+        public async Task<IActionResult> Register(RegisterVM registerVM)
+        {
+
+            var result = await _repository.Registers(registerVM);
+            if (result is null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            else if (result.Code == 409)
+            {
+                ModelState.AddModelError(string.Empty, result.Message);
+                TempData["Error"] = $"Something Went Wrong! - {result.Message}!";
+                return View();
+            }
+            else if (result.Code == 200)
+            {
+                TempData["Success"] = $"Data has been Successfully Registered! - {result.Message}!";
+                return RedirectToAction("Dashboard", "Home");
+            }
+            return RedirectToAction("Dashboard", "Home");
         }
 
         public IActionResult ForgotPassword()
