@@ -50,6 +50,7 @@ namespace Client.Controllers
 			return View();
         }
         /*[Authorize(Roles = "Employee")]*/
+        [Authorize]
         public async Task<IActionResult> Profile()
         {
             var token = HttpContext.Session.GetString("JWToken");
@@ -66,7 +67,7 @@ namespace Client.Controllers
 
                 if (Guid.TryParse(idClaim, out Guid userId))
                 {
-                    var employeeResponse = await _employeeRepository.GetEmployeeById(userId);
+                    var employeeResponse = await _employeeRepository.GetEmployeeById(userId, token);
 
                     if (employeeResponse != null && employeeResponse.Data != null)
                     {
@@ -103,7 +104,7 @@ namespace Client.Controllers
                     overtime.Employee_id = Guid.Parse(guidEmployee);
                     overtime.SubmitDate = DateTime.Today;
 
-                    var result = await _overtimeRepository.RequestOvertime(overtime);
+                    var result = await _overtimeRepository.RequestOvertime(overtime, token);
                     if (result.Code == 200)
                     {
                         TempData["successMessage"] = "Data Berhasil Disubmit";

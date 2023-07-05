@@ -3,8 +3,10 @@ using Client.Repository.Interface;
 using Client.ViewModels;
 using Client.ViewModels.Overtime;
 using Newtonsoft.Json;
+using NuGet.Common;
 using System.Globalization;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace Client.Repository.Data
@@ -46,8 +48,9 @@ namespace Client.Repository.Data
             return employeeOvertimes;
 		}		
 
-		public async Task<ResponseMessageVM> RequestOvertime(Overtime overtime)
+		public async Task<ResponseMessageVM> RequestOvertime(Overtime overtime, string token)
 		{
+			httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
 			ResponseMessageVM entityVM = null;
 			StringContent content = new StringContent(JsonConvert.SerializeObject(overtime), Encoding.UTF8, "application/json");

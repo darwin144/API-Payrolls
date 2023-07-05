@@ -6,7 +6,7 @@ namespace Client.Repository.Interface
 {
 	public interface IOvertimeRepository : IRepository<Overtime, Guid>
 	{
-		Task<ResponseMessageVM> RequestOvertime(Overtime overtime);
+		Task<ResponseMessageVM> RequestOvertime(Overtime overtime, string token);
         Task<IEnumerable<OvertimeDetailVM>> GetOvertimeByemployeeGuid(Guid id);
 		Task<int> ApprovalOvertime();
 
